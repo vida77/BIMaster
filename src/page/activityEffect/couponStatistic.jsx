@@ -7,7 +7,7 @@ import DateBox from "../../components/searchBox/dateBox";
 import CityActivity from "../../components/searchBox/cityActivity";
 import {getFun} from "../../utils/api";
 import dateFormat from "../../utils/dateFormat";
-import {dateDiff, objectToArr} from "../../utils/dataHandle";
+import {dateDiff, objectToArr,milliFormat} from "../../utils/dataHandle";
 export  default class couponStatistic extends React.Component {
     constructor(props){
         super(props);
@@ -359,9 +359,11 @@ export  default class couponStatistic extends React.Component {
         return y + '-' + m + '-' + d;
     };
     render(){
-        const { showFlag, title, detailsTitle, tableData, tableHeader, load, current, total, pageSize, 
-            tableData1, tableHeader1, load1, current1, total1, pageSize1, selectBoxTitle, typeOptionData } = this.state;
-        return (
+        const { showFlag, title, detailsTitle, tableHeader, load, current, total, pageSize, 
+             tableHeader1, load1, current1, total1, pageSize1, selectBoxTitle, typeOptionData } = this.state;
+        let tableData = milliFormat(this.state.tableData);
+        let tableData1 = milliFormat(this.state.tableData1);        
+            return (
             <div className="operating-wrapper coupon-wrapper">
                 <div className={showFlag?"effect-wrapper": "effect-wrapper active"}>
                     <h3 className="cardTitle">{title}</h3>
