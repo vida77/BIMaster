@@ -714,6 +714,12 @@ export  default class overviewData extends React.Component {
             activeKey: activeKey
         })
     }
+    dateTypeChangeModal(e){
+        let index = e.target.value;
+        this.setState({
+            dateTypeModal: index
+        })
+    }
     render(){
         const {dateTypes, load, tableHeaderL, tableHeaderR, tableHeaderLL, tableData0, tableHeader0, tableData,tableHeader,
             tableData1, tableHeader1, tableData2, tableHeader2, tableData3, tableHeader3} = this.state;
@@ -811,7 +817,7 @@ export  default class overviewData extends React.Component {
         // }]
           return (
             <div className="overview-wrapper">
-                <div className="">
+                <div className="operating-wrapper">
                     <Card bordered={false}>
                         <div className="search-content">
                             <div className="search-wrapper">
@@ -924,7 +930,7 @@ export  default class overviewData extends React.Component {
                 >
                     <div className="chart-modal-wrapper">
                         <div className="chartExcel chartExcelL">
-                            <RadioGroup onChange={this.dateTypeChange.bind(this)}  defaultValue={this.state.dateTypeModal} value={this.state.dateTypeModal}>
+                            <RadioGroup onChange={this.dateTypeChangeModal.bind(this)}  defaultValue={this.state.dateTypeModal} value={this.state.dateTypeModal}>
                                 {radioChildren}
                             </RadioGroup>
                             <Tabs defaultActiveKey={this.state.activeKey} activeKey={this.state.activeKey} onChange={this.tabClickHandleModal.bind(this)}>
