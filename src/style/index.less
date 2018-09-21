@@ -1,0 +1,187 @@
+@import "variables";
+@import "global";
+@import "scroll";
+@import "table";
+@import "login";
+@import "icons";
+@import "button";
+@import "modal";
+@import "menu";
+@import "banner";
+@import "card";
+@import "img";
+@import "calendar";
+@import "utils-text";
+@import "utils-color";
+@import "utils-size";
+@import "utils-border";
+@import "utils-spacing";
+#root{
+  height: 100%;
+}
+.ant-layout-sider {
+  background: #001529;
+}
+.ant-layout-sider-children {
+  background: #001529;
+}
+.ant-layout{
+  height: 100%;
+  .logo{
+    height: 32px;
+    background: #333;
+    border-radius: 6px;
+    margin: 16px;
+  }
+  .ant-layout-sider-collapsed{
+    .anticon{
+      font-size: 16px;
+      margin-left: 8px;
+    }
+    .nav-text{
+      display: none;
+    }
+    .ant-menu-submenu-vertical > .ant-menu-submenu-title:after{
+      display: none;
+    }
+    .ant-menu-dark:not(.ant-menu-inline) .ant-menu-submenu-open {
+      color: inherit;
+    }
+  }
+  p {
+    margin: 10px 0 10px 0;
+  }
+}
+.gutter-example{
+  .ant-row{
+    //margin-left: 0 !important;
+    //margin-right: 0 !important;
+    >div{
+      background: transparent;
+      border: 0;
+    }
+  }
+}
+.gutter-box {
+  padding: 5px 0;
+}
+
+:global {
+  .ant-card-head-title {
+    font-size: 14px !important;
+  }
+}
+
+//下拉框
+.ant-select-selection:hover {
+  border-color: #108ee9!important;
+}
+.ant-select-dropdown-menu-item {
+  position: relative;
+  display: block;
+  padding: 7px 8px;
+  font-weight: 400;
+  color: rgba(0,0,0,.65);
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-transition: background .3s ease;
+  transition: background .3s ease
+}
+
+.ant-select-dropdown-menu-item:hover {
+  background-color: #ecf6fd!important;
+}
+
+.ant-select-dropdown-menu-item-disabled {
+  color: rgba(0,0,0,.25);
+  cursor: not-allowed;
+}
+
+.ant-select-dropdown-menu-item-disabled:hover {
+  color: rgba(0,0,0,.25);
+  background-color: #fff;
+  cursor: not-allowed;
+}
+
+.ant-select-dropdown-menu-item-selected,.ant-select-dropdown-menu-item-selected:hover {
+  background-color: #f7f7f7;
+  font-weight: 600;
+  color: rgba(0,0,0,.65);
+}
+
+.ant-select-dropdown-menu-item-active {
+  background-color: #ecf6fd!important;
+}
+
+.ant-select-dropdown-menu-item-divider {
+  height: 1px;
+  margin: 1px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+  line-height: 0;
+}
+
+.ant-select-dropdown.ant-select-dropdown--multiple .ant-select-dropdown-menu-item:after {
+  font-family: anticon;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\E632";
+  color: transparent;
+  display: inline-block;
+  font-size: 12px;
+  font-size: 10px\9;
+  -webkit-transform: scale(.83333) rotate(0deg);
+  transform: scale(.83333) rotate(0deg);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
+  zoom:1;-webkit-transition: all .2s ease;
+  transition: all .2s ease;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 8px;
+  font-weight: 700;
+  text-shadow: 0 .1px 0,.1px 0 0,0 -.1px 0,-.1px 0;
+}
+
+:root .ant-select-dropdown.ant-select-dropdown--multiple .ant-select-dropdown-menu-item:after {
+  -webkit-filter: none;
+  filter: none;
+  font-size: 12px;
+}
+
+.ant-select-dropdown.ant-select-dropdown--multiple .ant-select-dropdown-menu-item:hover:after {
+  color: #ddd;
+}
+
+.ant-select-dropdown.ant-select-dropdown--multiple .ant-select-dropdown-menu-item-disabled:after {
+  display: none;
+}
+
+.ant-select-dropdown.ant-select-dropdown--multiple .ant-select-dropdown-menu-item-selected:after,.ant-select-dropdown.ant-select-dropdown--multiple .ant-select-dropdown-menu-item-selected:hover:after {
+  color: #108ee9;
+  display: inline-block;
+}
+
+.ant-select-dropdown-container-open .ant-select-dropdown,.ant-select-dropdown-open .ant-select-dropdown {
+  display: block;
+}
+.ant-select-open .ant-select-selection {
+  border-color: #d9d9d9!important;
+  -webkit-box-shadow: none;
+  box-shadow: none!important;
+}
+.ant-select-focused .ant-select-selection,
+.ant-select-selection:focus,
+.ant-select--selection:active {
+  border-color: #108ee9!important;
+  box-shadow: none!important;
+}
+
+// Card
+.ant-card {
+  font: 14px/1.2 "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif!important;
+}

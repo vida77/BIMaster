@@ -1,0 +1,208 @@
+.ant-menu-dark {
+  &.ant-menu-inline {
+    .ant-menu-item-selected {
+      background-color: #5f5f5f !important;
+    }
+  }
+}
+.custom-trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: color .3s;
+}
+.ant-layout-sider-collapsed {
+  overflow-y: initial !important;
+}
+.avatar {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  line-height: 1;
+  border-radius: 500px;
+  white-space: nowrap;
+  font-weight: bold;
+  i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 100%;
+    &.bottom {
+      left: auto;
+      top: auto;
+      bottom: 0;
+      right: 0;
+    }
+    &.on {
+      background-color: #6cc788;
+    }
+  }
+  img {
+    border-radius: 500px;
+    width: 100%;
+  }
+}
+.switcher {
+  z-index: 1050;
+  position: fixed;
+  top: 78px;
+  right: -240px;
+  width: 240px;
+  transition: right 0.2s ease;
+  border: 1px solid rgba(120, 120, 120, 0.1);
+  background-clip: padding-box;
+  &.active {
+    right: -2px;
+  }
+  .sw-btn {
+    position: absolute;
+    left: -43px;
+    top: -1px;
+    padding: 10px 15px;
+    z-index: 1045;
+    border: 1px solid rgba(120, 120, 120, 0.1);
+    border-right-width: 0;
+    background-clip: padding-box;
+  }
+}
+.ant-menu-inline .ant-menu-item, .ant-menu-inline .ant-menu-submenu-title, .ant-menu-vertical-left .ant-menu-item, .ant-menu-vertical-left .ant-menu-submenu-title, .ant-menu-vertical-right .ant-menu-item, .ant-menu-vertical-right .ant-menu-submenu-title, .ant-menu-vertical .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title {
+  font-size: 14px!important;
+  margin: 0!important;
+}
+.ant-menu-vertical-right .ant-menu-item {
+  line-height: 30px!important;
+  height: 30px!important;
+}
+.nav-text {
+  margin-left: 10px;
+}
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background: #108ee9!important;
+
+}
+.ant-menu-dark, .ant-menu-dark .ant-menu-sub {
+  background: #001529!important;
+}
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: #000c17;
+}
+.ant-menu-submenu-title a {
+  color: rgba(255, 255, 255, 0.67);
+}
+
+.ant-menu-vertical .ant-menu-item,
+.ant-menu-vertical-left .ant-menu-item,
+.ant-menu-vertical-right .ant-menu-item,
+.ant-menu-inline .ant-menu-item,
+.ant-menu-vertical .ant-menu-submenu-title,
+.ant-menu-vertical-left .ant-menu-submenu-title,
+.ant-menu-vertical-right .ant-menu-submenu-title,
+.ant-menu-inline .ant-menu-submenu-title {
+  font-size: 14px;
+  line-height: 40px;
+}
+
+.wrapper{
+  .nav-sider {
+    flex: 0 0 256px;
+    max-width: 256px;
+    min-width: 256px;
+    width: 256px;
+    background: #001529;
+  }
+}
+
+.header {
+  background: #fff;
+  padding: 0 30px 0 0;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  position: relative;
+  .collapsed-btn {
+    font-size: 20px;
+    line-height: 64px;
+    cursor: pointer;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+    padding: 0 24px;
+  }
+  .header-right {
+    float: right;
+    height: 100%;
+  }
+}
+
+.logo {
+  height: 64px;
+  position: relative;
+  line-height: 64px;
+  padding-left: 14px;
+  -webkit-transition: all .3s;
+  -o-transition: all .3s;
+  transition: all .3s;
+  background: #002140;
+  overflow: hidden;
+  img {
+
+    display: inline-block;
+    vertical-align: middle;
+    height: 45px;
+  }
+  .logo-title {
+    color: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    //margin: 0 0 0 12px;
+    font-family: 'Myriad Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+
+}
+.login-icon {
+  margin: 20px 0;
+}
+
+.cal-sum {
+  position: absolute;
+  right: 10%;
+  z-index: 99;
+  bottom: 20px;
+}
+
+.power .ant-card-body {
+  padding: 0;
+
+}
+.ant-menu-submenu-vertical>.ant-menu-submenu-title:after {
+  font-family: "anticon" !important;
+  font-style: normal;
+  vertical-align: baseline;
+  text-align: center;
+  text-transform: none;
+  text-rendering: auto;
+  position: absolute;
+  content: "\E61D";
+  right: 16px;
+  top: 0;
+  display: inline-block;
+  font-size: 12px;
+  font-size: 8px \9;
+  -webkit-transform: scale(0.66666667) rotate(0deg);
+  -ms-transform: scale(0.66666667) rotate(0deg);
+  transform: scale(0.66666667) rotate(0deg);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=1, M12=0, M21=0, M22=1)";
+  zoom: 1;
+}
+
+
+
