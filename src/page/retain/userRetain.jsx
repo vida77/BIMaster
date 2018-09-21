@@ -175,7 +175,7 @@ class userRetain extends React.Component{
         const exportParams = {
             start_at: this.state.start_at,
             end_at: this.state.end_at,
-            title: '留存_新' + this.state.title,
+            title: '留存' + this.state.title,
             city: this.state.city,
             tableHeader: this.state.tableHeader,
             exportData: this.state.tableData
@@ -189,7 +189,7 @@ class userRetain extends React.Component{
         const exportParams = {
             start_at: this.state.start_at,
             end_at: this.state.end_at,
-            title: '留存_老' + this.state.title,
+            title: '留存' + this.state.title,
             city: this.state.city,
             tableHeader: this.state.tableHeader2,
             exportData: this.state.tableData2
