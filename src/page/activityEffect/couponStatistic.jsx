@@ -29,24 +29,24 @@ export  default class couponStatistic extends React.Component {
                 {
                     title: '新激活用户',
                     children: [
-                        {title: '激活用户数', dataIndex: 'new_user_num', key: 'new_user_num'},
-                        {title: '激活用户订单数', dataIndex: 'new_user_order_num', key: 'new_user_order_num'},
-                        {title: '激活用户订单支付金额', dataIndex: 'new_user_total_amount', key: 'new_user_total_amount'},
-                        {title: '激活用户订单原始金额', dataIndex: 'new_user_origin_amount', key: 'new_user_origin_amount'},
-                        {title: '激活用户订单司机分账金额', dataIndex: 'new_user_sharing_amount', key: 'new_user_sharing_amount'},
-                        {title: '激活用户订单优惠金额', dataIndex: 'new_user_discount_amount', key: 'new_user_discount_amount'}
+                        {title: '用户数', dataIndex: 'new_user_num', key: 'new_user_num'},
+                        {title: '订单数', dataIndex: 'new_user_order_num', key: 'new_user_order_num'},
+                        {title: '订单支付金额', dataIndex: 'new_user_total_amount', key: 'new_user_total_amount'},
+                        {title: '订单原始金额', dataIndex: 'new_user_origin_amount', key: 'new_user_origin_amount'},
+                        {title: '订单司机分账金额', dataIndex: 'new_user_sharing_amount', key: 'new_user_sharing_amount'},
+                        {title: '订单优惠金额', dataIndex: 'new_user_discount_amount', key: 'new_user_discount_amount'}
                     
                     ]
                 },
                 {
                     title: '老用户',
                     children: [
-                        {title: '老用户数', dataIndex: 'old_user_num', key: 'old_user_num'},
-                        {title: '老用户订单数', dataIndex: 'old_user_order_num', key: 'old_user_order_num'},
-                        {title: '老用户订单支付金额', dataIndex: 'old_user_total_amount', key: 'old_user_total_amount'},
-                        {title: '老用户订单原始金额', dataIndex: 'old_user_origin_amount', key: 'old_user_origin_amount'},
-                        {title: '老用户订单司机分账金额', dataIndex: 'old_user_sharing_amount', key: 'old_user_sharing_amount'},
-                        {title: '老用户订单优惠金额', dataIndex: 'old_user_discount_amount', key: 'old_user_discount_amount'}
+                        {title: '用户数', dataIndex: 'old_user_num', key: 'old_user_num'},
+                        {title: '订单数', dataIndex: 'old_user_order_num', key: 'old_user_order_num'},
+                        {title: '订单支付金额', dataIndex: 'old_user_total_amount', key: 'old_user_total_amount'},
+                        {title: '订单原始金额', dataIndex: 'old_user_origin_amount', key: 'old_user_origin_amount'},
+                        {title: '订单司机分账金额', dataIndex: 'old_user_sharing_amount', key: 'old_user_sharing_amount'},
+                        {title: '订单优惠金额', dataIndex: 'old_user_discount_amount', key: 'old_user_discount_amount'}
                     ]
                 }
             ],
@@ -59,24 +59,24 @@ export  default class couponStatistic extends React.Component {
                 {
                     title: '新激活用户',
                     children: [
-                        {title: '激活用户数', dataIndex: 'new_user_num', key: 'new_user_num'},
-                        {title: '激活用户订单数', dataIndex: 'new_user_order_num', key: 'new_user_order_num'},
-                        {title: '激活用户订单支付金额', dataIndex: 'new_user_total_amount', key: 'new_user_total_amount'},
-                        {title: '激活用户订单原始金额', dataIndex: 'new_user_origin_amount', key: 'new_user_origin_amount'},
-                        {title: '激活用户订单司机分账金额', dataIndex: 'new_user_sharing_amount', key: 'new_user_sharing_amount'},
-                        {title: '激活用户订单优惠金额', dataIndex: 'new_user_discount_amount', key: 'new_user_discount_amount'}
+                        {title: '用户数', dataIndex: 'new_user_num', key: 'new_user_num'},
+                        {title: '订单数', dataIndex: 'new_user_order_num', key: 'new_user_order_num'},
+                        {title: '订单支付金额', dataIndex: 'new_user_total_amount', key: 'new_user_total_amount'},
+                        {title: '订单原始金额', dataIndex: 'new_user_origin_amount', key: 'new_user_origin_amount'},
+                        {title: '订单司机分账金额', dataIndex: 'new_user_sharing_amount', key: 'new_user_sharing_amount'},
+                        {title: '订单优惠金额', dataIndex: 'new_user_discount_amount', key: 'new_user_discount_amount'}
                     
                     ]
                 },
                 {
                     title: '老用户',
                     children: [
-                        {title: '老用户数', dataIndex: 'old_user_num', key: 'old_user_num'},
-                        {title: '老用户订单数', dataIndex: 'old_user_order_num', key: 'old_user_order_num'},
-                        {title: '老用户订单支付金额', dataIndex: 'old_user_total_amount', key: 'old_user_total_amount'},
-                        {title: '老用户订单原始金额', dataIndex: 'old_user_origin_amount', key: 'old_user_origin_amount'},
-                        {title: '老用户订单司机分账金额', dataIndex: 'old_user_sharing_amount', key: 'old_user_sharing_amount'},
-                        {title: '老用户订单优惠金额', dataIndex: 'old_user_discount_amount', key: 'old_user_discount_amount'}
+                        {title: '用户数', dataIndex: 'old_user_num', key: 'old_user_num'},
+                        {title: '订单数', dataIndex: 'old_user_order_num', key: 'old_user_order_num'},
+                        {title: '订单支付金额', dataIndex: 'old_user_total_amount', key: 'old_user_total_amount'},
+                        {title: '订单原始金额', dataIndex: 'old_user_origin_amount', key: 'old_user_origin_amount'},
+                        {title: '订单司机分账金额', dataIndex: 'old_user_sharing_amount', key: 'old_user_sharing_amount'},
+                        {title: '订单优惠金额', dataIndex: 'old_user_discount_amount', key: 'old_user_discount_amount'}
                     ]
                 }
             ],
@@ -127,7 +127,7 @@ export  default class couponStatistic extends React.Component {
     // 初始化导出所需数据
     initExportData() {
         const exportParams = {
-            title: '活动效果_' + this.state.title,
+            title: '优惠券_' + this.state.title,
             tableHeader: this.state.tableHeader,
             exportData: this.state.tableData,
         }
@@ -140,12 +140,12 @@ export  default class couponStatistic extends React.Component {
         const exportParams = {
             start_at: this.state.start_at,
             end_at: this.state.end_at,
-            title: '活动效果_' + this.state.title,
-            tableHeader: this.state.tableHeader,
+            title: '优惠券_' + this.state.detailsTitle,
+            tableHeader: this.state.tableHeader1,
             exportData: this.state.tableData1
         }
         this.setState({
-            exportParams: exportParams
+            exportParams1: exportParams
         })
     }
     // 获取城市，活动ID／活动名称--组件参数
@@ -362,6 +362,7 @@ export  default class couponStatistic extends React.Component {
         const { showFlag, title, detailsTitle, tableHeader, load, current, total, pageSize, 
              tableHeader1, load1, current1, total1, pageSize1, selectBoxTitle, typeOptionData } = this.state;
         let tableData = milliFormat(this.state.tableData);
+        
         let tableData1 = milliFormat(this.state.tableData1);        
             return (
             <div className="operating-wrapper coupon-wrapper">
@@ -422,7 +423,7 @@ export  default class couponStatistic extends React.Component {
                         <div className="page-footer">
                             <Row>
                                 <Col span={10}>
-                                    <ExportFileCom params={this.state.exportParams}></ExportFileCom>
+                                    <ExportFileCom params={this.state.exportParams1}></ExportFileCom>
                                 </Col>
                                 <Col span={14} style={{textAlign: 'right'}}>
                                     <Pagination  current={current1} total={total1} onChange={this.pageChange1.bind(this)} pageSize={pageSize1}  showQuickJumper></Pagination>

@@ -20,7 +20,9 @@ class RealSummaryChart extends Component {
     }
     // 基于准备好的dom，初始化echarts实例
     componentDidMount() {
-        this.showChart(this.props.data);
+        if(this.props.data){
+            this.showChart(this.props.data);
+        }
     }
 
     componentWillReceiveProps(nextProps) {

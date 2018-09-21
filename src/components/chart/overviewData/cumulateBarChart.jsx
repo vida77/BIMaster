@@ -58,7 +58,7 @@ export default class CumulateBarChart extends Component{
             }
             // console.log(arrB)
         })
-        let legendData=['创建订单', '主动取消','有车接单','有车无人接','无车可接','主动取消','主动选择','超时取消','主动取消','当日完成','等待服务']
+        let legendData=['创建订单', '主动取消（派单阶段）','有车接单','有车无人接','无车可接','主动取消（决策阶段）','主动选择','超时取消','主动取消（服务阶段）','当日完成','等待服务']
         legendData.reverse().map((legend,index)=>{
             seriesData[index].name = legend;
         })
@@ -106,17 +106,18 @@ export default class CumulateBarChart extends Component{
                 }
             },
             legend: {
-                orient: 'vertical',
-                itemWidth: 15,
+                orient: 'horizontal',
+                itemWidth: 10,
+                itemHeight: 10,
                 right: 0,
-                top:'15%',
-                data: ['创建订单', '主动取消','有车接单','有车无人接','无车可接','主动取消','主动选择','超时取消','主动取消','当日完成','等待服务']
+                bottom:'5%',
+                data: ['创建订单', '主动取消 (派单阶段）','有车接单','有车无人接','无车可接','主动取消（决策阶段）','主动选择','超时取消','主动取消（服务阶段）','当日完成','等待服务']
             },
             grid: {
                 left: '3%',
                 top: '15%',
-                right: '20%',
-                bottom: 20,
+                right: '5%',
+                bottom: '20%',
                 containLabel: true
             },
             xAxis:  {

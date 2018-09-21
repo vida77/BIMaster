@@ -45,9 +45,6 @@ export  default class effectStatistic extends React.Component {
                     title: '召回用户', dataIndex: 'recall_user_count', key: 'recall_user_count'
                 },
                 {
-                    title: '总单量', dataIndex: 'total_order_count', key: 'total_order_count'
-                },
-                {
                     title: '总金额', dataIndex: 'total_amount', key: 'total_amount'
                 },
                 {
@@ -181,8 +178,8 @@ export  default class effectStatistic extends React.Component {
         const exportParams = {
             start_at: this.state.start_at,
             end_at: this.state.end_at,
-            title: '活动效果_' + this.state.title,
-            tableHeader: this.state.tableHeader,
+            title: '活动效果_' + this.state.detailsTitle,
+            tableHeader: this.state.tableHeader1,
             exportData: this.state.tableData1
         }
         this.setState({

@@ -5,6 +5,7 @@ export default class Funnel extends Component{
     constructor(props){
         super(props);
         this.state = {
+            title: '司机漏斗',
             chartData: 
             [
                 {value: 60, name: '日均完成订单司机'},
@@ -30,10 +31,19 @@ export default class Funnel extends Component{
         },()=>this.showChart())
     }
     showChart(){
+        let {title} = this.state;
         let _this = this;
         let {chartData} = this.state;
         var myChart = echarts.init(_this.refs.main);
         var option = {
+            title: {
+                text: title,
+                left: 20,
+                textStyle: {
+                    color: '#333',
+                    fontSize: 16,
+                }
+            },
             backgroundColor:'#fff',
             tooltip: {
                 trigger: 'item',

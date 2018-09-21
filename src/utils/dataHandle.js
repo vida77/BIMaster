@@ -35,7 +35,7 @@ export function objectToArr (obj, arrStr, flag) {
 export function milliFormat(arr) {
     arr.map( item => {
         for(let item1 in item){
-            if(item1 == 'key' || item1 == 'start_time'){
+            if(item1 == 'key' || item1 == 'start_time' || item1 == 'coupon_id'|| item1 == 'coupon_name'){
                 item[item1] = item[item1]
             }else {
                 item[item1] = item[item1] && item[item1].toString()

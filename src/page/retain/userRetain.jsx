@@ -137,6 +137,7 @@ class userRetain extends React.Component{
            
             searchParams: {},
             exportParams: {},
+            exportParams2: {},
             checkedParam: {},
             flag: false,
         }
@@ -175,7 +176,7 @@ class userRetain extends React.Component{
         const exportParams = {
             start_at: this.state.start_at,
             end_at: this.state.end_at,
-            title: '留存' + this.state.title,
+            title: '留存_新' + this.state.title,
             city: this.state.city,
             tableHeader: this.state.tableHeader,
             exportData: this.state.tableData
@@ -189,14 +190,15 @@ class userRetain extends React.Component{
         const exportParams = {
             start_at: this.state.start_at,
             end_at: this.state.end_at,
-            title: '留存' + this.state.title,
+            title: '留存_老' + this.state.title,
             city: this.state.city,
             tableHeader: this.state.tableHeader2,
             exportData: this.state.tableData2
         }
         this.setState({
-            exportParams: exportParams
+            exportParams2: exportParams
         })
+        console.log(exportParams)
     }
     // 获取下拉框和日期参数
     searchParams(params){
@@ -520,7 +522,7 @@ class userRetain extends React.Component{
                             </Row>
                         </div>
                     </div>
-                    <h3 className="cardTitle">新用户</h3>
+                    <h3 className="cardTitle">新用户留存</h3>
                     <div className="tableWrap" style={{marginBottom:16}}>
                         <div>
                             <Table dataSource={tableData} bordered loading={load} columns={tableHeader} pagination={false} scroll={{x: '130%'}}>
@@ -538,7 +540,7 @@ class userRetain extends React.Component{
                             </Row>
                         </div>
                     </div>
-                    <h3 className="cardTitle">老用户</h3>
+                    <h3 className="cardTitle">老用户留存</h3>
                     <div className="tableWrap">
                         <div>
                             <Table dataSource={tableData2} bordered loading={load2} columns={tableHeader2} pagination={false} scroll={{x: '130%'}}>
@@ -548,7 +550,7 @@ class userRetain extends React.Component{
                         <div className="page-footer">
                             <Row>
                                 <Col span={10}>
-                                    <ExportFileCom params={this.state.exportParams}></ExportFileCom>
+                                    <ExportFileCom params={this.state.exportParams2}></ExportFileCom>
                                 </Col>
                                 <Col span={14} style={{textAlign: 'right'}}>
                                     <Pagination current={current2} total={total2} onChange={this.pageChangeOld.bind(this)} pageSize={pageSize2}  showQuickJumper></Pagination>

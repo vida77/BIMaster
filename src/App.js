@@ -62,7 +62,7 @@ class App extends Component {
             <LocaleProvider locale={zhCN}>
 
             <Layout>
-                {/* <NoticeBox ></NoticeBox> */}
+                <NoticeBox ></NoticeBox>
                 <SiderCustom collapsed={this.state.collapsed} />
                 <Layout style={{flexDirection: 'column'}}>
                     <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} />

@@ -13,7 +13,9 @@ export default class TimeLineChart extends Component {
 
     // 基于准备好的dom，初始化echarts实例
     componentDidMount() {
-        this.showChart(this.props.data, this.props.desc, this.props.title);
+        if(this.props.data){
+            this.showChart(this.props.data, this.props.desc, this.props.title);
+        }
     }
 
     componentWillReceiveProps(nextProps) {

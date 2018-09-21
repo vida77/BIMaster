@@ -525,6 +525,7 @@ export  default class overviewData extends React.Component {
                 }
             ],
             xScroll: '100%',
+            modalTitle: '',
             cumulateBarChartVisible: false,
             funnelChartVisible: false
         }
@@ -619,7 +620,8 @@ export  default class overviewData extends React.Component {
                     chartData: this.state.chartData0,
                     tableData: this.state.tableData0,
                     tableHeader: this.state.tableHeader0,
-                    lineBarChartVisible: true
+                    lineBarChartVisible: true,
+                    modalTitle: '订单数据'
                 })
                 break;
             case 1:
@@ -629,7 +631,8 @@ export  default class overviewData extends React.Component {
                     chartData: this.state.chartData1,
                     tableData: this.state.tableData1,
                     tableHeader: this.state.tableHeader1,
-                    lineBarChartVisible: true
+                    lineBarChartVisible: true,
+                    modalTitle: '流水数据'
                 })
                 break;
             case 2:
@@ -640,7 +643,8 @@ export  default class overviewData extends React.Component {
                     tableData: this.state.tableData2,
                     tableHeader: this.state.tableHeader2,
                     xScroll: '300%',
-                    lineBarChartVisible: true
+                    lineBarChartVisible: true,
+                    modalTitle: '司机活跃度数据'
                 })
                 break;
             case 3:
@@ -651,7 +655,8 @@ export  default class overviewData extends React.Component {
                     tableData: this.state.tableData3,
                     tableHeader: this.state.tableHeader3,
                     xScroll: '300%',
-                    lineBarChartVisible: true
+                    lineBarChartVisible: true,
+                    modalTitle: '乘客数据'
                 })
                 break;
             case 4:
@@ -935,7 +940,7 @@ export  default class overviewData extends React.Component {
                             </RadioGroup>
                             <Tabs defaultActiveKey={this.state.activeKey} activeKey={this.state.activeKey} onChange={this.tabClickHandleModal.bind(this)}>
                                 <TabPane tab="图" key="1">
-                                    <LineBarChart chartInform={this.state.chartInform} chartData={this.state.chartData}></LineBarChart>
+                                    <LineBarChart title={this.state.modalTitle} chartInform={this.state.chartInform} chartData={this.state.chartData}></LineBarChart>
                                 </TabPane>
                                 <TabPane tab="表" key="2">
                                     <Table className="tabTable" dataSource={tableData} bordered loading={load} columns={tableHeader} pagination={false} scroll={{x: this.state.xScroll}}/>

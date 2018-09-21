@@ -97,15 +97,15 @@ class SearchCheckBox extends React.Component{
         });
         if(e.target.checked){
             this.setState({
-                order_peak_type: ''
-            })
+                order_peak_type: Object.values(obj).join(",")
+            },() => this.postParams())
         }else {
             let arr = Object.values(obj);
             this.setState({
                 order_peak_type: arr.join(",")
-            })
+            },() => this.postParams())
         }
-        this.postParams();
+
     }
     onChange1 = (checkedList1) => {
         let arr = [];
@@ -129,15 +129,14 @@ class SearchCheckBox extends React.Component{
         });
         if(e.target.checked){
             this.setState({
-                estimate_distance: ''
-            })
+                estimate_distance: Object.values(obj1).join(",")
+            },() => this.postParams())
         }else {
             let arr = Object.values(obj1);
             this.setState({
                 estimate_distance: arr.join(",")
-            })
+            },() => this.postParams())
         }
-        this.postParams();
     }
     postParams(){
         let params = {
