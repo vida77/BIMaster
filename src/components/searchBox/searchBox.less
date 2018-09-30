@@ -3,7 +3,7 @@
 }
 .city-select{
   float: left;
-  width: 400px;
+  width: 370px;
 }
 .time-range{
   float: left;
@@ -12,7 +12,21 @@
 .collapse-search{
   display: none;
 }
-.city-select2{
-  float: left;
-  width: 370px;
+.switch-wrapper {
+  display: none;
+  position: absolute;
+  top:18px;
+}
+.switch-wrapper.active {
+  display: block;
+  position: absolute;
+  top:18px;
+}
+.switch-wrapper .ant-switch{
+  height:20px;
+  line-height: 18px;
+}
+.switch-wrapper .ant-switch:after {
+  height:16px;
+  width:16px;
 }

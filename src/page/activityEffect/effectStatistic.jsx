@@ -5,11 +5,11 @@ import moment from 'moment';
 // import SearchBox from '../../components/searchBox/searchBox'
 import CityActivity from "../../components/searchBox/cityActivity";
 import ExportFileCom from '../../components/exportFile/exportFile'
-import DateBox from "../../components/searchBox/dateBox";
+import DateBoxMarket from "../../components/searchBox/dateBoxMarket";
 
 import {getFun} from '../../utils/api'
 import dateFormat from "../../utils/dateFormat";
-import {objectToArr, dateDiff, milliFormat} from '../../utils/dataHandle'
+import {objectToArr, objectToArr2, dateDiff, milliFormat} from '../../utils/dataHandle'
 
 import './activityEffect.less'
 export  default class effectStatistic extends React.Component {
@@ -17,10 +17,10 @@ export  default class effectStatistic extends React.Component {
         super(props)
         this.state = {
             flag: false,
-            title: '活动效果统计',
-            detailsTitle: '',
-            selectBoxTitle: '活动筛选',
             showFlag: true,
+            title: '活动效果统计',
+            selectBoxTitle: '活动筛选',
+            detailsTitle: '',
             tableData: [],
             tableData1: [],
             tableHeader: [
@@ -29,46 +29,46 @@ export  default class effectStatistic extends React.Component {
                 },
                 {
                     title: '活动名称', dataIndex: 'activity_name', key: 'activity_name',
-                    render: (text, record, index) => <a href="javascript:;" onClick={this.gotoDetails.bind(this,text)}>{text}</a>,
+                    render: (text, record, index) => <a href="javascript:;" onClick={this.gotoDetails.bind(this,text,record)}>{text}</a>,
                 },
                 {
-                    title: '发放量', dataIndex: 'issue_count', key: 'issue_count',
+                    title: '发放量', dataIndex: 'sent_num', key: 'sent_num',
                     render: (text, record, index) => <a href="javascript:;" onClick={this.gotoCoupon.bind(this,record)}>{text}</a>
                 },
                 {
-                    title: '使用量', dataIndex: 'use_count', key: 'use_count'
+                    title: '使用量', dataIndex: 'used_num', key: 'used_num'
                 },
                 {
-                    title: '新用户数', dataIndex: 'new_user_count', key: 'new_user_count'
+                    title: '新用户数', dataIndex: 'new_user_num', key: 'new_user_num'
                 },
                 {
-                    title: '召回用户', dataIndex: 'recall_user_count', key: 'recall_user_count'
+                    title: '召回用户', dataIndex: 'recall_user_num', key: 'recall_user_num'
                 },
                 {
-                    title: '总金额', dataIndex: 'total_amount', key: 'total_amount'
+                    title: '总金额', dataIndex: 'all_origin_amount', key: 'all_origin_amount'
                 },
                 {
-                    title: '总补贴', dataIndex: 'total_subsidy', key: 'total_subsidy'
+                    title: '总补贴', dataIndex: 'all_discount_amount', key: 'all_discount_amount'
                 },
                 {
-                    title: '均单价', dataIndex: 'order_average_amount', key: 'order_average_city_subsidy'
+                    title: '均单价', dataIndex: 'avg_origin_amount', key: 'avg_origin_amount'
                 },
                 {
-                    title: '单均收入', dataIndex: 'order_average_income', key: 'order_average_income'
+                    title: '单均收入', dataIndex: 'avg_yidao_amount', key: 'avg_yidao_amount'
                 },
                 {
-                    title: '单均补贴', dataIndex: 'order_average_subsidy', key: 'order_average_subsidy'
+                    title: '单均补贴', dataIndex: 'avg_discount_amount', key: 'avg_discount_amount'
                 },
                 {
-                    title: '单均利润', dataIndex: 'order_average_profit', key: 'order_average_profit'
+                    title: '单均利润', dataIndex: 'avg_profit_amount', key: 'avg_profit_amount'
                 },
                 {
-                    title: 'CAC', dataIndex: 'CAC', key: 'CAC'
+                    title: 'CAC', dataIndex: 'cac', key: 'cac'
                 },
             ],
             tableHeader1: [
                 {
-                    title: '日期', dataIndex: 'start_time', key: 'start_time'
+                    title: '日期', dataIndex: 'date_ts', key: 'date_ts'
                 },
                 {
                     title: '活动ID', dataIndex: 'activity_id', key: 'activity_id'
@@ -77,40 +77,40 @@ export  default class effectStatistic extends React.Component {
                     title: '活动名称', dataIndex: 'activity_name', key: 'activity_name',
                 },
                 {
-                    title: '发放量', dataIndex: 'issue_count', key: 'issue_count'
+                    title: '发放量', dataIndex: 'sent_num', key: 'sent_num'
                 },
                 {
-                    title: '使用量', dataIndex: 'use_count', key: 'use_count'
+                    title: '使用量', dataIndex: 'used_num', key: 'used_num'
                 },
                 {
-                    title: '新用户数', dataIndex: 'new_user_count', key: 'new_user_count'
+                    title: '新用户数', dataIndex: 'new_user_num', key: 'new_user_num'
                 },
                 {
-                    title: '召回用户', dataIndex: 'recall_user_count', key: 'recall_user_count'
+                    title: '召回用户', dataIndex: 'recall_user_num', key: 'recall_user_num'
                 },
                 {
-                    title: '总单量', dataIndex: 'total_order_count', key: 'total_order_count'
+                    title: '总单量', dataIndex: 'all_order_num', key: 'all_order_num'
                 },
                 {
-                    title: '总金额', dataIndex: 'total_amount', key: 'total_amount'
+                    title: '总金额', dataIndex: 'all_origin_amount', key: 'all_origin_amount'
                 },
                 {
-                    title: '总补贴', dataIndex: 'total_subsidy', key: 'total_subsidy'
+                    title: '总补贴', dataIndex: 'all_discount_amount', key: 'all_discount_amount'
                 },
                 {
-                    title: '均单价', dataIndex: 'order_average_amount', key: 'order_average_city_subsidy'
+                    title: '均单价', dataIndex: 'avg_origin_amount', key: 'avg_origin_amount'
                 },
                 {
-                    title: '单均收入', dataIndex: 'order_average_income', key: 'order_average_income'
+                    title: '单均收入', dataIndex: 'avg_yidao_amount', key: 'avg_yidao_amount'
                 },
                 {
-                    title: '单均补贴', dataIndex: 'order_average_subsidy', key: 'order_average_subsidy'
+                    title: '单均补贴', dataIndex: 'avg_discount_amount', key: 'avg_discount_amount'
                 },
                 {
-                    title: '单均利润', dataIndex: 'order_average_profit', key: 'order_average_profit'
+                    title: '单均利润', dataIndex: 'avg_profit_amount', key: 'avg_profit_amount'
                 },
                 {
-                    title: 'CAC', dataIndex: 'CAC', key: 'CAC'
+                    title: 'CAC', dataIndex: 'cac', key: 'cac'
                 },
 
             ],
@@ -124,7 +124,7 @@ export  default class effectStatistic extends React.Component {
             total1: 1,
             pageSize: 10,
             pageSize1: 10,
-            dayNum: 10,
+            dayNum: 60,
             dateParams:{},
             start_at: '',
             end_at: '',
@@ -139,14 +139,21 @@ export  default class effectStatistic extends React.Component {
         this.gotoDetails = this.gotoDetails.bind(this)
     }
     componentWillMount(){
-        this.getTableData();
+         // this.getTableData();
+         this.initDateRange(this.state.dayNum);//初始化查询日期
+         let city = this.getCityParams();
+         this.setState({
+             city: city
+         })
+        //  console.log(city)
     }
     componentDidMount(){
-        this.setState({
-            load:true
-        },() => {
-            this.getTableData();
-        })
+        // this.setState({
+        //     load:true
+        // },() => {
+        //     this.getTableData();
+        // })
+        this.getTableData();
     }
    
     //初始化查询起止日期-详情页
@@ -183,12 +190,15 @@ export  default class effectStatistic extends React.Component {
             exportData: this.state.tableData1
         }
         this.setState({
-            exportParams: exportParams
+            exportParams1: exportParams
         })
     }
      // 获取城市，活动ID／活动名称--组件参数
     cityActivityParams(params){
         console.log('组件城市／活动ID／活动名称参数',params)
+        if(params.city[0] == 'all'){
+            params.city = '';
+        }
         this.setState({
             id_value: params.id_value,
             name_value: params.name_value,
@@ -209,7 +219,8 @@ export  default class effectStatistic extends React.Component {
     searchBtn(){
         this.setState({
             load: true,
-            total: this.state.total
+            total: this.state.total,
+            current: 1
         },() => {
             this.getTableData()
         })
@@ -218,36 +229,41 @@ export  default class effectStatistic extends React.Component {
     searchBtn1(){
         this.setState({
             load1: true,
-            total1: this.state.total1
+            total1: this.state.total1,
+            current1: 1
         },() => {
             this.getTableData1()
         })
     }
     // 获取列表数据
     getTableData(){
-        let arrStr = ['start_time','coupon_name']
+        let arrStr = ['date_ts','activity_name']
         let searchParams = this.getParams();
-        let result =getFun('/web_api/coupon/list',  searchParams);
+        let result =getFun('/web_api/market/activity',  searchParams);
         result.then(res => {
             // console.log(res.data)
             this.setState({
                 load: false,
-                tableData: objectToArr(res.data.data,arrStr),
-                total: res.data.total
+                tableData: objectToArr2(res.data.data,arrStr),
+                total: res.data.total,
+                id_value:'',
+                name_value:'',
 
             }, () => {this.initExportData()})
         }).catch(err => {
             console.log(err)
         })
-        this.setState({
-            load: false,
-        })
+        // this.setState({
+        //     // load: false,
+        //     id_value:'',
+        //     name_value:'',
+        // })
     }
     // 获取列表数据--详情
     getTableData1(){
-        let arrStr = ['date_ts','coupon_name']
+        let arrStr = ['date_ts','activity_name']
         let searchParams = this.getParams1();
-        let result =getFun('/web_api/coupon/list',  searchParams);
+        let result =getFun('/web_api/market/activity',  searchParams);
         result.then(res => {
             res.data.data.map(item=>{
                 item.date_ts = dateFormat(item.date_ts*1000,"yyyy-MM-dd")
@@ -255,30 +271,45 @@ export  default class effectStatistic extends React.Component {
             })
             this.setState({
                 load1: false,
-                tableData1: objectToArr(res.data.data, arrStr),
-                total: res.data.total
+                tableData1: objectToArr2(res.data.data, arrStr),
+                total1: res.data.total
         
             }, () => {this.initExportData1()})
         }).catch(err => {
             console.log(err)
         })
-            this.setState({
-                load1: false,
-            })
+        // this.setState({
+        //     load1: false,
+        // })
     }
     
     // 获取接口参数
     getParams() {
         const params = {
-            coupon_id: this.state.id_value?this.state.id_value:'',
-            coupon_name: this.state.name_value?this.state.name_value:'',
+            activity_id: this.state.id_value?this.state.id_value:'',
+            activity_name: this.state.name_value?this.state.name_value:'',
             city: this.state.flag?this.state.city:this.getCityParams(),
             page: this.state.current,
         }
-        // console.log('请求参数',params)
+        console.log('请求参数',params)
         return params;
     }
-   
+   // 获取接口参数--详情
+    getParams1() {
+        // let start, end;
+        // start = this.pageStartDate();
+        // end = this.pageEndDate().format("YYYY-MM-DD");
+        const params = {
+            activity_id: parseInt(this.state.activity_id_detail),
+            activity_name: this.state.activity_name_detail,
+            start_at: this.state.start_at,
+            end_at: this.state.end_at,
+            groupby: 'date',
+            page: this.state.current1,
+        }
+        console.log('详情页请求参数',params)
+        return params;
+    }
     // 城市权限
     getCityParams(){
         let path = document.location.toString();
@@ -329,7 +360,7 @@ export  default class effectStatistic extends React.Component {
         return day;
     }
      // 获取当前页数
-     pageChange(page, pageSize) {
+    pageChange(page, pageSize) {
         this.setState({
             current: page,
             pageSize: pageSize,
@@ -348,9 +379,9 @@ export  default class effectStatistic extends React.Component {
             this.getTableData1()
         })
     }
-    // 优惠券统计->优惠券统计详情页
+    // 活动统计->活动统计详情页
     gotoDetails(text,record){
-        // console.log(record)
+        console.log(record)
         this.setState({
             detailsTitle:  ' / ' + text,
             showFlag: !this.state.showFlag
@@ -360,8 +391,8 @@ export  default class effectStatistic extends React.Component {
         this.setState({
             city: city,
             load1: true,
-            coupon_id_detail: record.coupon_id,
-            coupon_name_detail: record.coupon_name,
+            activity_id_detail: record.activity_id,
+            activity_name_detail: '',
 
         },() => {
             this.getTableData1();
@@ -372,11 +403,13 @@ export  default class effectStatistic extends React.Component {
         this.setState({
             showFlag: !this.state.showFlag,
             load: false
+        },() => {
+            this.getTableData();
         })
     }
     gotoCoupon(record){
         hashHistory.push({
-            pathname: '/app/activityEffect/couponStatistic',
+            pathname: '/app/market/coupon',
             query: {
                 activity_id: record.activity_id
             },
@@ -435,7 +468,7 @@ export  default class effectStatistic extends React.Component {
                                         <ExportFileCom params={this.state.exportParams}></ExportFileCom>
                                     </Col>
                                     <Col span={14} style={{textAlign: 'right'}}>
-                                        <Pagination current={this.state.current} total={total} onChange={this.pageChange.bind(this)} pageSize={pageSize}  showQuickJumper></Pagination>
+                                        <Pagination current={current} total={total} onChange={this.pageChange.bind(this)} pageSize={pageSize}  showQuickJumper></Pagination>
                                     </Col>
                                 </Row>
                             </div>
@@ -452,7 +485,7 @@ export  default class effectStatistic extends React.Component {
                             <div className="search-content">
                                 <div className="search-wrapper">
                                 <div>
-                                    <DateBox searchParams={params => this.dateBoxParams(params)}></DateBox>
+                                    <DateBoxMarket searchParams={params => this.dateBoxParams(params)}></DateBoxMarket>
                                 </div>
                                 </div>
                                 <div className="search-btn-wrapper">
@@ -469,10 +502,10 @@ export  default class effectStatistic extends React.Component {
                             <div className="page-footer">
                                 <Row>
                                     <Col span={10}>
-                                        <ExportFileCom params={this.state.exportParams}></ExportFileCom>
+                                        <ExportFileCom params={this.state.exportParams1}></ExportFileCom>
                                     </Col>
                                     <Col span={14} style={{textAlign: 'right'}}>
-                                        <Pagination current={this.state.current1} total={total1} onChange={this.pageChange1.bind(this)} pageSize={pageSize1}  showQuickJumper></Pagination>
+                                        <Pagination current={current1} total={total1} onChange={this.pageChange1.bind(this)} pageSize={pageSize1}  showQuickJumper></Pagination>
                                     </Col>
                                 </Row>
                             </div>

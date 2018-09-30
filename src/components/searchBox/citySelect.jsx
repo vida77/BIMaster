@@ -127,7 +127,6 @@ class CitySelect extends React.Component{
             this.props.searchParams(param)
         }
 
-
     }
     getCityArr(value){
         let length = value.length - 1;
@@ -162,7 +161,7 @@ class CitySelect extends React.Component{
         } )
         return (
             <div className="search-box-wrapper">
-                <div className="city-select2">
+                <div className="city-select">
                     <label className="cartype-label" style={{width:'42px'}}>城市：</label>
                     <Select
                         mode="multiple"

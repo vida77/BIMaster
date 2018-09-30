@@ -4,6 +4,7 @@ import moment from 'moment';
 import dateFormat from '../../utils/dateFormat';
 import TimeLineChart from '../../components/chart/realTimeOrder';
 import {getFun} from '../../utils/api';
+import CitySelect from '../../components/searchBox/citySelect'
 
 import './realtime.less';
 
@@ -93,19 +94,25 @@ export default class RealTimeOrder extends Component {
                 "order_finish_rate": '--'
             },
             sourceData: null,
-            freshFlag: true
+            freshFlag: true,
+            city: '',
+            cityFlag: false,
         };
 
         this.Timer = null;
     }
-
+    componentWillMount() {
+        let city = this.getCityParams();
+        this.setState({
+            city: city
+        })
+    }
     componentDidMount() {
         this.getRealtime();
         this.Timer = setInterval(() => {
             this.getRealtime();
         }, 1000 * 60);
     }
-
     componentWillUnmount() {
         window.clearInterval(this.Timer);
     }
@@ -130,12 +137,14 @@ export default class RealTimeOrder extends Component {
     }
 
     getOrderData() {
+        console.log(this.state.order_type)
         let result = getFun('/web_api/realtime/order', {
             action: 'now',
-            stat_date: this.state.stat_date,
+            // stat_date: this.state.stat_date,
             car_type: this.state.car_type,
             order_type: this.state.order_type,
-            data_type: this.state.date_type,
+            // data_type: this.state.date_type,
+            city_key: this.state.cityFlag?this.state.city:this.getCityParams(),
         })
         result.then(data => {
             this.setState({
@@ -176,10 +185,12 @@ export default class RealTimeOrder extends Component {
     }
 
     handleServerChange(value, type) {
+        console.log(value,type)
         const that = this;
         if (type === 0) { //服务类型
             that.setState({
                 order_type: value
+            // }, () => console.log(this.state.order_type))
             }, () => that.getOrderData())
         } else if (type === 1) { //车型
             that.setState({
@@ -191,7 +202,36 @@ export default class RealTimeOrder extends Component {
             }, () => that.getOrderData())
         }
     }
-
+    // 获取下拉框组件参数
+    thisSearchParams(params){
+        this.setState({
+            city: params.city,
+            cityFlag: true
+        })
+    }
+    getCityParams(){
+        let path = document.location.toString();
+        let pathUrl = path.split('#');
+        let url = pathUrl[1].split('/');
+        let str = url[url.length - 1];
+        let city = "";
+        let auth = JSON.parse(localStorage.getItem("auth"));
+        if(auth){
+            let cityObj = auth;
+            Object.keys(cityObj).map(item => {
+                if(item.indexOf(str) > 0 ){
+                    let cityArr = cityObj[item].city;
+                    if(cityArr[0] == 'all'){
+                        city = '';
+                    }else {
+                        city = cityArr.join(",")
+                    }
+                    // city = cityArr[cityArr.length - 1]
+                }
+            })
+        }
+        return city;
+    }
 
     render() {
         const {loading} = this.state;
@@ -199,8 +239,9 @@ export default class RealTimeOrder extends Component {
             <div>
                 <div className="summary-num">
                     <div className="sum-search">
+                        
                         <Select value={this.state.order_type} style={{width: 120}}
-                                onChange={(val) => this.handleServerChange(val, '0')}>
+                                onChange={(val) => this.handleServerChange(val, 0)}>
                             {
                                 this.state.serverType.map((item, index) => {
 
@@ -209,7 +250,7 @@ export default class RealTimeOrder extends Component {
                             }
                         </Select>
                         <Select value={this.state.car_type} style={{width: 120}}
-                                onChange={(val) => this.handleServerChange(val, '1')}>
+                                onChange={(val) => this.handleServerChange(val, 1)}>
                             {
                                 this.state.carType.map((item, index) => {
 
@@ -218,27 +259,28 @@ export default class RealTimeOrder extends Component {
                             }
                         </Select>
 
-
-                        <DatePicker
+                        <CitySelect searchParams={params => this.thisSearchParams(params)} style={{}}></CitySelect>
+                    
+                        {/* <DatePicker
                             disabledDate={this.disabledDate.bind(this)}
                             allowClear={false}
                             value={moment(this.state.stat_date, 'YYYY-MM-DD')}
-                            onChange={this.handleChangeDate.bind(this)}/>
+                            onChange={this.handleChangeDate.bind(this)}/> */}
 
                         {/*<div class="check-day">*/}
                         {/*<span class="check-l hand" onClick={() => this.handleDate(7)}>7天</span>*/}
                         {/*<span class="check-r hand" onClick={() => this.handleDate(30)}>30天</span>*/}
                         {/*</div>*/}
 
-                        <Select value={this.state.date_type} style={{width: 120}}
-                                onChange={(val) => this.handleServerChange(val, '2')}>
+                        {/* <Select value={this.state.date_type} style={{width: 120}}
+                                onChange={(val) => this.handleServerChange(val, 2)}>
                             {
                                 this.state.dateType.map((item, index) => {
 
                                     return <Option key={item.text} value={item.value}>{item.text}</Option>
                                 })
                             }
-                        </Select>
+                        </Select> */}
 
                     </div>
 

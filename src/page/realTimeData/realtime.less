@@ -1,7 +1,9 @@
+.ant-layout{
+  position: relative;
+}
 .summary-num {
   padding: 20px 0 0 0;
   text-align: center;
-
   p {
     font-size: 14px;
     color: rgba(0, 0, 0, 0.45);
@@ -20,16 +22,26 @@
     display: flex;
     .ant-tabs-tab {
       flex: 1;
-      padding: 8px 0;
+      padding: 0 0 8px 0;
     }
   }
 }
 
 .sum-search {
+  overflow: hidden;
   margin-bottom: 10px;
   text-align: right;
   > div {
     margin: 5px;
+  }
+  .search-box-wrapper{
+    float:right;
+  }
+  .city-select .cartype-label{
+    margin-top:4px;
+  }
+  .ant-select{
+    float:right;
   }
 }
 

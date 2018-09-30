@@ -226,7 +226,7 @@ class SearchBox extends React.Component{
                         showArrow={true}
                         defaultValue={this.state.city}
                         value={this.state.city}
-                        style={{width: 300}}
+                        style={{width: 282}}
                         onSearch={this.handleSearch.bind(this)}
                         filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                         onChange={this.handleChange.bind(this)}>
@@ -234,7 +234,7 @@ class SearchBox extends React.Component{
                     </Select>
                 </div>
                 <div className="time-range">
-                    <label>时间范围：</label>
+                    <label className="cartype-label">时间范围：</label>
                     <RangePicker
                         value={[selectedStartDate, selectedEndDate]}
                         format={dateFormat}

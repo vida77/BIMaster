@@ -94,10 +94,10 @@ class SiderCustom extends Component {
                     ]
                 },
                 {
-                    key: '/app/activityEffect', title: '活动效果', icon: 'gift',
+                    key: '/app/market', title: '活动效果', icon: 'gift',
                     sub: [
-                        { key: '/app/activityEffect/effectStatistic', title: '活动效果统计', menuID: 'web_api/activityEffect/effectStatistic'},
-                        { key: '/app/coupon/list', title: '优惠券统计', menuID: 'web_api/coupon/list'}
+                        { key: '/app/market/activity', title: '活动效果统计', menuID: 'web_api/market/activity'},
+                        { key: '/app/market/coupon', title: '优惠券统计', menuID: 'web_api/market/coupon'}
                     ]
                 },
                 {

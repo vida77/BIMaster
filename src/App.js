@@ -37,6 +37,7 @@ class App extends Component {
             this.props.initData(res.data);
             localStorage.setItem("auth",JSON.stringify(res.data.auth))
             localStorage.setItem("userInfo",JSON.stringify(res.data.userInfo))
+            // localStorage.setItem("switchInfo",JSON.stringify(res.data.switchInfo))
         })
 
     }
@@ -62,7 +63,7 @@ class App extends Component {
             <LocaleProvider locale={zhCN}>
 
             <Layout>
-                <NoticeBox ></NoticeBox>
+                {/* <NoticeBox ></NoticeBox> */}
                 <SiderCustom collapsed={this.state.collapsed} />
                 <Layout style={{flexDirection: 'column'}}>
                     <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} />

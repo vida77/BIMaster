@@ -140,6 +140,7 @@ class userRetain extends React.Component{
             exportParams2: {},
             checkedParam: {},
             flag: false,
+            
         }
     }
     componentWillMount() {

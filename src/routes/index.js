@@ -112,8 +112,8 @@ export default class CRouter extends Component {
 
                 <Route exact path="/app/retain/userRetain/" component={userRetain} />
                 
-                <Route exact path="/app/activityEffect/effectStatistic" component={effectStatistic} />
-                <Route exact path="/app/coupon/list" component={couponStatistic} />
+                <Route exact path="/app/market/activity" component={effectStatistic} />
+                <Route exact path="/app/market/coupon" component={couponStatistic} />
 
                 <Route exact path="/app/overviewData/overviewData" component={overviewData} />
 

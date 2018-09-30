@@ -179,10 +179,14 @@ class CityActivity extends React.Component{
         if(value=='活动ID' || value=='优惠券ID'){
             this.setState({
                 flag:false,
+                name_value_state:'',
+                id_value_state: ''
             });
         }else if(value=='活动名称' || value=='优惠券名称'){
             this.setState({
                 flag:true,
+                name_value_state:'',
+                id_value_state: ''
             });
         }
     }
@@ -235,7 +239,7 @@ class CityActivity extends React.Component{
                         showArrow={true}
                         defaultValue={this.state.city}
                         value={this.state.city}
-                        style={{width: 300}}
+                        style={{width: 270}}
                         onSearch={this.handleSearch.bind(this)}
                         filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                         onChange={this.handleChange.bind(this)}>

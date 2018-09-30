@@ -31,11 +31,42 @@ export function objectToArr (obj, arrStr, flag) {
     }
     return arr.reverse();
 }
+// 保留2位小数点，倒叙
+export function objectToArr2 (obj, arrStr, flag) {
+    // console.log(obj)//[{},{},{}]
+    let arr = [];
+    let keyArr = Object.keys(obj);
+    // console.log(keyArr)//["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    for(let k in keyArr) {
+        let oo = obj[keyArr[k]];
+        // console.log(oo)//{},{},{}
+        arr.unshift(Object.assign({},{date_ts: keyArr[k], key: k}, oo));
+    }
+    if(!flag){
+        arr.map( item => {
+            Object.keys(item).map( item1 => {
+                if(arrStr.indexOf(item1) > -1){
+                    return item[item1];
+                }
+                else {
+                    // return (item[item1] = Math.ceil(item[item1]));
+                    if(item[item1].toString().includes(".")){
+                        if(item[item1]== 0){
+                            return (item[item1] = parseFloat(item[item1]).toFixed(0));
+                        }
+                        return item[item1]
+                    }
+                }
+            })
+        });
+    }
+    return arr.reverse();
+}
 //数字添加千分符
 export function milliFormat(arr) {
     arr.map( item => {
         for(let item1 in item){
-            if(item1 == 'key' || item1 == 'start_time' || item1 == 'coupon_id'|| item1 == 'coupon_name'){
+            if(item1 == 'key' || item1 == 'start_time' || item1 == 'coupon_id'|| item1 == 'coupon_name'|| item1 == 'date_ts'|| item1 == 'activity_name'|| item1 == 'activity_id' ){
                 item[item1] = item[item1]
             }else {
                 item[item1] = item[item1] && item[item1].toString()

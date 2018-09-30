@@ -1,13 +1,16 @@
 import React from 'react'
 import {Button, Card, Table, Row, Col, Pagination} from 'antd'
 import moment from 'moment';
-import './activityEffect.less'
+
 import ExportFileCom from "../../components/exportFile/exportFile";
-import DateBox from "../../components/searchBox/dateBox";
 import CityActivity from "../../components/searchBox/cityActivity";
+import DateBoxMarket from "../../components/searchBox/dateBoxMarket";
+
 import {getFun} from "../../utils/api";
 import dateFormat from "../../utils/dateFormat";
-import {dateDiff, objectToArr,milliFormat} from "../../utils/dataHandle";
+import {dateDiff, objectToArr, objectToArr2,milliFormat} from "../../utils/dataHandle";
+
+import './activityEffect.less'
 export  default class couponStatistic extends React.Component {
     constructor(props){
         super(props);
@@ -90,7 +93,7 @@ export  default class couponStatistic extends React.Component {
             total1: 1,
             pageSize: 10,
             pageSize1: 10,
-            dayNum: 10,
+            dayNum: 60,
             dateParams:{},
             start_at: '',
             end_at: '',
@@ -100,17 +103,22 @@ export  default class couponStatistic extends React.Component {
             coupon_id_detail:'',
             coupon_name_detail: '',
             typeOptionData: ['优惠券ID','优惠券名称'],
+            activity_id: ''
         }
-    }
+    }   
     componentWillMount(){
-        this.getTableData();
+        // this.getTableData();
+        this.initDateRange(this.state.dayNum);//初始化查询日期
+        let city = this.getCityParams();
+        this.setState({
+            city: city,
+            activity_id: this.props.location.search.split('=')[1]
+        })
+        // console.log(city)
+        // console.log(this.props.location.search.split('=')[1])
     }
     componentDidMount(){
-        this.setState({
-            load:true
-        },() => {
-            this.getTableData();
-        })
+        this.getTableData();
     }
     //初始化查询起止日期
     initDateRange(rangeDays) {
@@ -151,6 +159,9 @@ export  default class couponStatistic extends React.Component {
     // 获取城市，活动ID／活动名称--组件参数
     cityActivityParams(params){
         console.log('组件城市／活动ID／活动名称参数',params)
+        if(params.city[0] == 'all'){
+            params.city = '';
+        }
         this.setState({
             id_value: params.id_value,
             name_value: params.name_value,
@@ -171,7 +182,8 @@ export  default class couponStatistic extends React.Component {
     searchBtn(){
         this.setState({
             load: true,
-            total: this.state.total
+            total: this.state.total,
+            current: 1
         },() => {
             this.getTableData()
         })
@@ -180,7 +192,8 @@ export  default class couponStatistic extends React.Component {
     searchBtn1(){
         this.setState({
             load1: true,
-            total1: this.state.total1
+            total1: this.state.total1,
+            current1: 1
         },() => {
             this.getTableData1()
         })
@@ -189,27 +202,30 @@ export  default class couponStatistic extends React.Component {
     getTableData(){
         let arrStr = ['start_time','coupon_name']
         let searchParams = this.getParams();
-        let result =getFun('/web_api/coupon/list',  searchParams);
+        let result =getFun('/web_api/market/coupon',  searchParams);
         result.then(res => {
             // console.log(res.data)
             this.setState({
                 load: false,
-                tableData: objectToArr(res.data.data,arrStr),
-                total: res.data.total
-
+                tableData: objectToArr2(res.data.data,arrStr),
+                total: res.data.total,
+                id_value: '',
+                name_value: ''
             }, () => {this.initExportData()})
         }).catch(err => {
             console.log(err)
         })
-        this.setState({
-            load: false,
-        })
+        // this.setState({
+        //     // load: false,
+        //     id_value: '',
+        //     name_value: ''
+        // })
     }
     // 获取列表数据--详情
     getTableData1(){
         let arrStr = ['date_ts','coupon_name']
         let searchParams = this.getParams1();
-        let result =getFun('/web_api/coupon/list',  searchParams);
+        let result =getFun('/web_api/market/coupon',  searchParams);
         result.then(res => {
             res.data.data.map(item=>{
                 item.date_ts = dateFormat(item.date_ts*1000,"yyyy-MM-dd")
@@ -217,16 +233,13 @@ export  default class couponStatistic extends React.Component {
             })
             this.setState({
                 load1: false,
-                tableData1: objectToArr(res.data.data, arrStr),
-                total: res.data.total
+                tableData1: objectToArr2(res.data.data, arrStr),
+                total1: res.data.total
         
             }, () => {this.initExportData1()})
         }).catch(err => {
             console.log(err)
         })
-            this.setState({
-                load1: false,
-            })
     }
     // 获取接口参数
     getParams() {
@@ -235,8 +248,9 @@ export  default class couponStatistic extends React.Component {
             coupon_name: this.state.name_value?this.state.name_value:'',
             city: this.state.flag?this.state.city:this.getCityParams(),
             page: this.state.current,
+            activity_id: this.state.activity_id?this.state.activity_id:''
         }
-        // console.log('请求参数',params)
+        console.log('请求参数',params)
         return params;
     }
     // 获取接口参数--详情
@@ -325,7 +339,7 @@ export  default class couponStatistic extends React.Component {
     }
     // 优惠券统计->优惠券统计详情页
     gotoDetails(text,record){
-        // console.log(record)
+        console.log(record)
         this.setState({
             detailsTitle:  ' / ' + text,
             showFlag: !this.state.showFlag
@@ -336,7 +350,7 @@ export  default class couponStatistic extends React.Component {
             city: city,
             load1: true,
             coupon_id_detail: record.coupon_id,
-            coupon_name_detail: record.coupon_name,
+            coupon_name_detail: '',
 
         },() => {
             this.getTableData1();
@@ -347,6 +361,8 @@ export  default class couponStatistic extends React.Component {
         this.setState({
             showFlag: !this.state.showFlag,
             load: false
+        },() => {
+            this.getTableData();
         })
     }
     // 时间格式转化
@@ -362,7 +378,6 @@ export  default class couponStatistic extends React.Component {
         const { showFlag, title, detailsTitle, tableHeader, load, current, total, pageSize, 
              tableHeader1, load1, current1, total1, pageSize1, selectBoxTitle, typeOptionData } = this.state;
         let tableData = milliFormat(this.state.tableData);
-        
         let tableData1 = milliFormat(this.state.tableData1);        
             return (
             <div className="operating-wrapper coupon-wrapper">
@@ -406,7 +421,7 @@ export  default class couponStatistic extends React.Component {
                             <div className="search-wrapper">
 
                                 <div>
-                                    <DateBox searchParams={params => this.dateBoxParams(params)}></DateBox>
+                                    <DateBoxMarket searchParams={params => this.dateBoxParams(params)}></DateBoxMarket>
                                 </div>
                             </div>
                             <div className="search-btn-wrapper">
