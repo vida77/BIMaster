@@ -31,7 +31,8 @@ class Portrait extends React.Component{
                 2: [2],
                 3: [3],
                 4: [5],
-                5: [78]
+                5: [78],
+                6: [2,3,5,37,78]
             },
             carTypes: { //车型
                 0: '全部',
@@ -39,7 +40,8 @@ class Portrait extends React.Component{
                 2: '舒适',
                 3: '豪华',
                 4: '商务',
-                5: '出租车'
+                5: '出租车',
+                6: '其他'
             },
             city: '',
             start_at: '',
@@ -227,18 +229,21 @@ class Portrait extends React.Component{
         return params;
     }
     getCityParams(){
+        let auth = JSON.parse(localStorage.getItem("auth"));
+        let arr = Object.keys(auth);
+
         let path = document.location.toString();
         let pathUrl = path.split('#');
         let url = pathUrl[1].split('/');
         let str = url[url.length - 1];
         let city = "";
-        let auth = JSON.parse(localStorage.getItem("auth"));
+        // let auth = JSON.parse(localStorage.getItem("auth"));
         if(auth){
             let cityObj = auth;
             Object.keys(cityObj).map(item => {
                 if(item.indexOf(str) > 0 ){
                     let cityArr = cityObj[item].city;
-                    if(cityArr[0] == 'all'){
+                    if(cityArr[0] == 'all' || arr.indexOf("-1") > -1){
                         city = '';
                     }else {
                         city = cityArr.join(",")

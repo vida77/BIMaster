@@ -63,20 +63,34 @@ class SearchBox extends React.Component{
         let obj = localStorage.getItem('cityData');
         let objJson = JSON.parse(obj);
         if(objJson){
-            objJson = Object.assign({"all": "全部"}, objJson);
-            this.setState({
-                cityData: objJson
-            },() => this.getCityData())
+            if(Object.keys(objJson).length>1){
+                objJson = Object.assign({"all": "全部"}, objJson);
+                this.setState({
+                    cityData: objJson
+                },() => this.getCityData())
+            }else{
+                objJson = objJson;
+                this.setState({
+                    cityData: objJson
+                },() => this.getCityData())
+            }
 
         }else {
             let cityData = getFun('/web_api/dim_info/city');
             cityData.then( res => {
                 console.log(res.data)
                 localStorage.setItem('cityData', JSON.stringify(res.data));
-                let cityobj = Object.assign({"all": "全部"}, res.data);
-                this.setState({
-                    cityData: cityobj
-                })
+                if(Object.keys(res.data).length>1){
+                    let cityobj = Object.assign({"all": "全部"}, res.data);
+                    this.setState({
+                        cityData: cityobj
+                    })
+                }else{
+                    let cityobj = res.data;
+                    this.setState({
+                        cityData: cityobj
+                    })
+                }
 
             })
         }
@@ -107,6 +121,7 @@ class SearchBox extends React.Component{
                     }else {
                         let cityStr = _this.state.cityData;
                         let str = {};
+                        console.log(cityData)
                         cityData.map(item => {
                             let strr = {"all": "全部"};
                             let keyStr = item;
@@ -119,9 +134,10 @@ class SearchBox extends React.Component{
                             // city: cityStr[cityData[cityData.length-1]].toString()
                             city: ['all']
                         })
+
                         const start = new Date((moment(this.state.selectedStartDate).subtract())._d);
                         const end = new Date((moment(this.state.selectedEndDate).subtract())._d);
-
+                        
                         const param = {
                             city: cityData.join(","),
                             selectedStartDate: this.formatDate(start),

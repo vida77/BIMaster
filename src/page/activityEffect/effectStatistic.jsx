@@ -129,6 +129,7 @@ export  default class effectStatistic extends React.Component {
             start_at: '',
             end_at: '',
             city: '',
+            cityDetail: '',
             id_value:'',
             name_value:'',
             activity_id_detail:'',
@@ -141,9 +142,9 @@ export  default class effectStatistic extends React.Component {
     componentWillMount(){
          // this.getTableData();
          this.initDateRange(this.state.dayNum);//初始化查询日期
-         let city = this.getCityParams();
+         let city = this.getCityParams(); 
          this.setState({
-             city: city
+             city: city //初始化查询日期
          })
         //  console.log(city)
     }
@@ -159,7 +160,7 @@ export  default class effectStatistic extends React.Component {
     //初始化查询起止日期-详情页
     initDateRange(rangeDays) {
         //时间类型为moment格式
-        const  endTime= moment().subtract(1, 'days');//当前时间
+        const endTime= moment().subtract(1, 'days');//当前时间
         const startTime = moment().subtract(rangeDays, 'days');//当前时间
         const start = new Date((moment(startTime).subtract())._d);
         const end = new Date((moment(endTime).subtract())._d);
@@ -168,6 +169,7 @@ export  default class effectStatistic extends React.Component {
             start_at: this.formatDate(start),
             end_at: this.formatDate(end), //当前时间减n天
         });
+        console.log(this.state.start_at);
     }
     // 初始化导出所需数据
     initExportData() {
@@ -240,6 +242,7 @@ export  default class effectStatistic extends React.Component {
         let arrStr = ['date_ts','activity_name']
         let searchParams = this.getParams();
         let result =getFun('/web_api/market/activity',  searchParams);
+        // console.log(searchParams.city)
         result.then(res => {
             // console.log(res.data)
             this.setState({
@@ -248,6 +251,7 @@ export  default class effectStatistic extends React.Component {
                 total: res.data.total,
                 id_value:'',
                 name_value:'',
+                city: searchParams.city
 
             }, () => {this.initExportData()})
         }).catch(err => {
@@ -258,6 +262,7 @@ export  default class effectStatistic extends React.Component {
         //     id_value:'',
         //     name_value:'',
         // })
+        
     }
     // 获取列表数据--详情
     getTableData1(){
@@ -267,7 +272,7 @@ export  default class effectStatistic extends React.Component {
         result.then(res => {
             res.data.data.map(item=>{
                 item.date_ts = dateFormat(item.date_ts*1000,"yyyy-MM-dd")
-                console.log(item.date_ts)
+                // console.log(item.date_ts)
             })
             this.setState({
                 load1: false,
@@ -292,10 +297,14 @@ export  default class effectStatistic extends React.Component {
             page: this.state.current,
         }
         console.log('请求参数',params)
+        // this.setState({
+        //     city: params.city,
+        // })
         return params;
     }
    // 获取接口参数--详情
     getParams1() {
+        console.log(this.state.city)
         // let start, end;
         // start = this.pageStartDate();
         // end = this.pageEndDate().format("YYYY-MM-DD");
@@ -306,24 +315,27 @@ export  default class effectStatistic extends React.Component {
             end_at: this.state.end_at,
             groupby: 'date',
             page: this.state.current1,
+            city: this.state.city
         }
         console.log('详情页请求参数',params)
         return params;
     }
     // 城市权限
     getCityParams(){
+        let auth = JSON.parse(localStorage.getItem("auth"));
+        let arr = Object.keys(auth);
         let path = document.location.toString();
         let pathUrl = path.split('#');
         let url = pathUrl[1].split('/');
         let str = url[url.length - 1];
         let city = "";
-        let auth = JSON.parse(localStorage.getItem("auth"));
+        // let auth = JSON.parse(localStorage.getItem("auth"));
         if(auth){
             let cityObj = auth;
             Object.keys(cityObj).map(item => {
                 if(item.indexOf(str) > 0 ){
                     let cityArr = cityObj[item].city;
-                    if(cityArr[0] == 'all'){
+                    if(cityArr[0] == 'all' || arr.indexOf("-1") > -1){
                         city = '';
                     }else {
                         city = cityArr.join(",")
@@ -387,9 +399,10 @@ export  default class effectStatistic extends React.Component {
             showFlag: !this.state.showFlag
         })
         this.initDateRange(this.state.dayNum);//初始化查询日期
-        let city = this.getCityParams();
+        // let city = this.getCityParams();
+        // console.log(city)
         this.setState({
-            city: city,
+            // city: this.state.city,
             load1: true,
             activity_id_detail: record.activity_id,
             activity_name_detail: '',
@@ -398,20 +411,20 @@ export  default class effectStatistic extends React.Component {
             this.getTableData1();
         })
     }
-    // 优惠券统计详情页->优惠券统计
+    // 活动统计详情页->活动统计
     goBackDetails(){
         this.setState({
             showFlag: !this.state.showFlag,
-            load: false
-        },() => {
-            this.getTableData();
+            load: false,
+            city: ''
         })
     }
     gotoCoupon(record){
         hashHistory.push({
             pathname: '/app/market/coupon',
             query: {
-                activity_id: record.activity_id
+                activity_id: record.activity_id,
+                city: this.state.city
             },
         })
     }

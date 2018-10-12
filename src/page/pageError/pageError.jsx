@@ -11,7 +11,7 @@ export default class SystemNotice extends Component {
             title:'',
             tip:'',
             imgSrc:'',
-            code: ''
+            code: '',
         };
     }
     componentWillMount() {
@@ -39,6 +39,13 @@ export default class SystemNotice extends Component {
                 title: '抱歉，您没有此页面访问权限。',
                 tip: '如需要请在钉钉相关模块申请使用权限。',
                 imgSrc: pageError2
+            })
+        }else if(this.state.code == 30001){
+            this.setState({
+                title: '抱歉，系统关闭，可在页面上展示message中的信息。',
+                tip: '',
+                imgSrc: '',
+                showFlag: false
             })
         }
     }

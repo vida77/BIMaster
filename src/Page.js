@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {initMenu} from './store/index/action'
 
-
 class Page extends React.Component {
     static propTypes = {
         initMenu: PropTypes.func
@@ -33,7 +32,7 @@ class Page extends React.Component {
                 <Switch>
                     <Route exact path="/" render={() => <Redirect to={path} push/>} />
                     <Route path="/app" component={App} />}/>
-                    <Route psath="/404" component={NotFound} />
+                    <Route path="/404" component={NotFound} />
                     <Route component={NotFound} />
                 </Switch>
             </Router>

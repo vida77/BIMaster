@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment';
 import {Tabs, Card, Radio, Icon,Table, Row, Col, Button, Pagination, Modal} from 'antd';
 import CitySelect from '../../components/searchBox/citySelect'
 import FunnelChart from '../../components/chart/overviewData'
@@ -7,6 +8,7 @@ import CumulateBarChart from '../../components/chart/overviewData/cumulateBarCha
 import DateBox from '../../components/searchBox/dateBox'
 
 import {getFun} from '../../utils/api'
+import dateFormat from "../../utils/dateFormat";
 import {objectToArr, dateDiff, milliFormat} from '../../utils/dataHandle'
 
 import './overviewData.less'
@@ -19,6 +21,9 @@ export  default class overviewData extends React.Component {
     constructor(props){
         super(props)
         this.state = {
+            start_at: '',
+            end_at: '',
+            dayNum: 8,
             dateType: ['0','0','0','0'],
             dateType0: '0',
             dateType1: '0',
@@ -32,6 +37,7 @@ export  default class overviewData extends React.Component {
             activeKey3: "1",
             activeKey4: "1",
             activeKey5: "1",
+            chartInform: [],
             chartInform0: [],
             chartInform1: [],
             chartInform2: [],
@@ -66,13 +72,199 @@ export  default class overviewData extends React.Component {
                 {"zdqx":90,"drwc":100,"ddfw":70,},
             ],
             // 柱图／折线图
-            chartInform: [
-                {name: '创建订单量', type: 'bar', filedName: 'a'},
-                {name: '有车接单量', type: 'bar', filedName: 'b'},
-                {name: '完成订单量', type: 'bar', filedName: 'c'},
-                {name: '订单完成率', type: 'line', filedName: 'd'}
+            chartInform00: [
+                {name: '创建订单量', type: 'bar', filedName: 'total_of_orders'},
+                {name: '有车接单量', type: 'bar', filedName: 'total_of_dispatch_orders'},
+                {name: '完成订单量', type: 'bar', filedName: 'total_of_finished_orders'},
+                {name: '订单完成率', type: 'line', filedName: 'rate_of_finished_order'}
             ],
-            chartData: {
+            chartInform01: [
+                {name: '订单金额', type: 'bar', filedName: 'a'},
+                {name: '储值金额', type: 'bar', filedName: 'b'},
+                {name: '充返金额', type: 'bar', filedName: 'c'},
+                {name: 'B端补贴率', type: 'line', filedName: 'd'},
+                {name: 'C端补贴率', type: 'line', filedName: 'e'}
+            ],
+            chartInform02: [
+                {name: '有效在线司机量', type: 'bar', filedName: 'a'},
+                {name: '活跃司机量', type: 'bar', filedName: 'b'},
+                {name: '新司机量', type: 'bar', filedName: 'c'},
+                {name: '老司机量', type: 'bar', filedName: 'd'}
+            ],
+            chartInform03: [
+                {name: '注册用户量', type: 'bar', filedName: 'a'},
+                {name: '新用户量', type: 'bar', filedName: 'b'},
+                {name: '老用户量', type: 'bar', filedName: 'c'},
+                {name: '新用户留存率', type: 'line', filedName: 'd'},
+                {name: '老用户留存率', type: 'line', filedName: 'e'}
+            ],
+            chartData00: {
+                '09-03': {
+                    'rate_of_finished_order': 58,
+                    'total_of_orders': 100,
+                    'total_of_dispatch_orders': 264,
+                    'total_of_finished_orders': 39,
+                },
+                '09-04': {
+                    'rate_of_finished_order': 28,
+                    'total_of_orders': 130,
+                    'total_of_dispatch_orders': 164,
+                    'total_of_finished_orders': 139,
+                },
+                '09-05': {
+                    'rate_of_finished_order': 48,
+                    'total_of_orders': 100,
+                    'total_of_dispatch_orders': 264,
+                    'total_of_finished_orders': 39,
+                },
+                '09-06': {
+                    'rate_of_finished_order': 78,
+                    'total_of_orders': 80,
+                    'total_of_dispatch_orders': 204,
+                    'total_of_finished_orders': 39,
+                },
+                '09-07': {
+                    'rate_of_finished_order': 58,
+                    'total_of_orders': 100,
+                    'total_of_dispatch_orders': 264,
+                    'total_of_finished_orders': 39,
+                },
+                '09-08': {
+                    'rate_of_finished_order': 58,
+                    'total_of_orders': 100,
+                    'total_of_dispatch_orders': 264,
+                    'total_of_finished_orders': 39,
+                },
+                '09-09': {
+                    'rate_of_finished_order': 58,
+                    'total_of_orders': 100,
+                    'total_of_dispatch_orders': 264,
+                    'total_of_finished_orders': 39,
+                },
+                '09-10': {
+                    'rate_of_finished_order': 58,
+                    'total_of_orders': 100,
+                    'total_of_dispatch_orders': 264,
+                    'total_of_finished_orders': 39,
+                }
+            },
+            chartData01: {
+                '09-03': {
+                    'a': 60,
+                    'b': 164,
+                    'c': 119,
+                    'd': 168,
+                    'e': 80
+                },
+                '09-04': {
+                    'a': 233,
+                    'b': 142,
+                    'c': 90,
+                    'd': 350,
+                    'e': 281
+                },
+                '09-05': {
+                    'a': 190,
+                    'b': 174,
+                    'c': 68,
+                    'd': 58,
+                    'e': 180
+                },
+                '09-06': {
+                    'a': 133,
+                    'b': 132,
+                    'c': 30,
+                    'd': 350,
+                    'e': 281
+                },
+                '09-07': {
+                    'a': 100,
+                    'b': 264,
+                    'c': 39,
+                    'd': 58,
+                    'e': 180
+                },
+                '09-08': {
+                    'a': 233,
+                    'b': 142,
+                    'c': 90,
+                    'd': 350,
+                    'e': 281
+                },
+                '09-09': {
+                    'a': 190,
+                    'b': 174,
+                    'c': 68,
+                    'd': 58,
+                    'e': 180
+                },
+                '09-10': {
+                    'a': 133,
+                    'b': 132,
+                    'c': 30,
+                    'd': 350,
+                    'e': 281
+                }
+            },
+            chartData02: {
+                '09-03': {
+                    'a': 10,
+                    'b': 64,
+                    'c': 139,
+                    'd': 158,
+                    'e': 80
+                },
+                '09-04': {
+                    'a': 233,
+                    'b': 142,
+                    'c': 90,
+                    'd': 350,
+                    'e': 281
+                },
+                '09-05': {
+                    'a': 190,
+                    'b': 174,
+                    'c': 68,
+                    'd': 58,
+                    'e': 180
+                },
+                '09-06': {
+                    'a': 133,
+                    'b': 132,
+                    'c': 30,
+                    'd': 350,
+                    'e': 281
+                },
+                '09-07': {
+                    'a': 100,
+                    'b': 264,
+                    'c': 39,
+                    'd': 58,
+                    'e': 180
+                },
+                '09-08': {
+                    'a': 233,
+                    'b': 142,
+                    'c': 90,
+                    'd': 350,
+                    'e': 281
+                },
+                '09-09': {
+                    'a': 190,
+                    'b': 174,
+                    'c': 68,
+                    'd': 58,
+                    'e': 180
+                },
+                '09-10': {
+                    'a': 133,
+                    'b': 132,
+                    'c': 30,
+                    'd': 350,
+                    'e': 281
+                }
+            },
+            chartData03: {
                 '09-03': {
                     'a': 100,
                     'b': 264,
@@ -131,22 +323,6 @@ export  default class overviewData extends React.Component {
                 }
             },
             xData:[],
-            // 表格
-            tableDataOrder: [],
-            tableHeaderOrder: [
-                {
-                    title: '日期', dataIndex: 'start_time', key: 'start_time',  width: '100px'
-                },
-                {
-                    title: '创建订单量', dataIndex: 'create_order_number', key: 'create_order_number'
-                },
-                {
-                    title: '完成订单量', dataIndex: 'complete_order_number', key: 'complete_order_number'
-                },
-                {
-                    title: '订单完成率', dataIndex: 'complete_order_radio', key: 'complete_order_radio'
-                },
-            ],
             // 组合表格
             tableHeaderL: [
                 {
@@ -175,6 +351,7 @@ export  default class overviewData extends React.Component {
             tableDataLL: [],
             load: false,
             lineBarChartVisible: false,
+            // 表格
             tableData: [],
             tableHeader: [],
             tableData0: [],
@@ -186,7 +363,7 @@ export  default class overviewData extends React.Component {
                     title: '创建订单量',
                     children: [
                         {
-                            title: '数量', dataIndex: 'cjddl', key: 'cjddl'
+                            title: '数量', dataIndex: 'rate_of_finished_order', key: 'cjddl'
                         },
                         {
                             title: '日环比(%)', dataIndex: 'cjddlrhb', key: 'cjddlrhb'
@@ -201,7 +378,7 @@ export  default class overviewData extends React.Component {
                     title: '完成订单量',
                     children: [
                         {
-                            title: '数量', dataIndex: 'wcdl', key: 'wcdl'
+                            title: '数量', dataIndex: 'total_of_orders', key: 'total_of_orders'
                         },
                         {
                             title: '日环比(%)', dataIndex: 'wcddlrhb', key: 'wcddlrhb'
@@ -215,7 +392,7 @@ export  default class overviewData extends React.Component {
                     title: '订单完成率',
                     children: [
                         {
-                            title: '数量', dataIndex: 'ddwcl', key: 'ddwcl'
+                            title: '数量', dataIndex: 'rate_of_finished_order', key: 'rate_of_finished_order'
                         },
                         {
                             title: '日环比(%)', dataIndex: 'ddwclrhb', key: 'ddwclrhb'
@@ -533,18 +710,70 @@ export  default class overviewData extends React.Component {
     componentWillMount() {
         //初始化折柱图数据
         this.setState({
-            chartInform0: this.state.chartInform,
-            chartInform1: this.state.chartInform,
-            chartInform2: this.state.chartInform,
-            chartInform3: this.state.chartInform,
-            chartData0: this.state.chartData,
-            chartData1: this.state.chartData,
-            chartData2: this.state.chartData,
-            chartData3: this.state.chartData
+            chartInform0: this.state.chartInform00,
+            chartInform1: this.state.chartInform01,
+            chartInform2: this.state.chartInform02,
+            chartInform3: this.state.chartInform03,
+            chartData0: this.state.chartData00,
+            chartData1: this.state.chartData01,
+            chartData2: this.state.chartData02,
+            chartData3: this.state.chartData03
         })
+        this.initDateRange(this.state.dayNum);//初始化查询日期
+        this.getChartData();
     }
     componentDidMount(){
         
+    }
+    //初始化查询起止日期
+    initDateRange(rangeDays) {
+        //时间类型为moment格式
+        const  endTime= moment().subtract(1, 'days');//当前时间
+        const startTime = moment().subtract(rangeDays, 'days');//当前时间
+        const start = new Date((moment(startTime).subtract())._d);
+        const end = new Date((moment(endTime).subtract())._d);
+        this.setState({
+            start_at: this.formatDate(start),
+            end_at: this.formatDate(end), //当前时间减n天
+        });
+        // console.log(this.state.start_at);
+    }
+     // 时间格式转化
+     formatDate (date) {
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? '0' + m : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        return y + '-' + m + '-' + d;
+    };
+    getChartData(){
+        let arrStr = ['start_time']
+        let searchParams = this.getParams();
+        let result =getFun('/web_api/board/order',  searchParams);
+        result.then(res => {
+            console.log(res.data);
+            this.setState({
+                load: false,
+                chartData00: res.data,
+            })
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+    // 获取接口参数
+    getParams() {
+        const params = {
+            // start_at: this.state.start_at,
+            // end_at: this.state.end_at,
+            start_at: 20180930,
+            end_at: 20181008,
+        }
+        // console.log('请求参数',params)
+        // this.setState({
+        //     city: params.city,
+        // })
+        return params;
     }
     // 点击查询
     searchBtn() {
@@ -557,18 +786,19 @@ export  default class overviewData extends React.Component {
         })
     }
     getCityParams(){
+        let auth = JSON.parse(localStorage.getItem("auth"));
+        let arr = Object.keys(auth);
         let path = document.location.toString();
         let pathUrl = path.split('#');
         let url = pathUrl[1].split('/');
         let str = url[url.length - 1];
         let city = "";
-        let auth = JSON.parse(localStorage.getItem("auth"));
         if(auth){
             let cityObj = auth;
             Object.keys(cityObj).map(item => {
                 if(item.indexOf(str) > 0 ){
                     let cityArr = cityObj[item].city;
-                    if(cityArr[0] == 'all'){
+                    if(cityArr[0] == 'all' || arr.indexOf("-1") > -1){
                         city = '';
                     }else {
                         city = cityArr.join(",")
@@ -579,6 +809,7 @@ export  default class overviewData extends React.Component {
         }
         return city;
     }
+    
     // 周，月
     dateTypeChange(n, event){
         let index = event.target.value;
@@ -612,6 +843,7 @@ export  default class overviewData extends React.Component {
     }
     // 点击放大按钮显示折柱图图表
     showBigChart(n, event){
+        // console.log(n)
         switch(n){
             case 0:
                 this.setState({
@@ -621,8 +853,9 @@ export  default class overviewData extends React.Component {
                     tableData: this.state.tableData0,
                     tableHeader: this.state.tableHeader0,
                     lineBarChartVisible: true,
-                    modalTitle: '订单数据'
-                })
+                    modalTitle: '订单数据',
+                    chartInform: this.state.chartInform0,
+                },console.log(this.state.chartInform))
                 break;
             case 1:
                 this.setState({
@@ -632,8 +865,9 @@ export  default class overviewData extends React.Component {
                     tableData: this.state.tableData1,
                     tableHeader: this.state.tableHeader1,
                     lineBarChartVisible: true,
-                    modalTitle: '流水数据'
-                })
+                    modalTitle: '流水数据',
+                    chartInform: this.state.chartInform1,
+                },console.log(this.state.chartInform))
                 break;
             case 2:
                 this.setState({
@@ -644,8 +878,9 @@ export  default class overviewData extends React.Component {
                     tableHeader: this.state.tableHeader2,
                     xScroll: '300%',
                     lineBarChartVisible: true,
-                    modalTitle: '司机活跃度数据'
-                })
+                    modalTitle: '司机活跃度数据',
+                    chartInform: this.state.chartInform2,
+                },console.log(this.state.chartInform))
                 break;
             case 3:
                 this.setState({
@@ -656,8 +891,9 @@ export  default class overviewData extends React.Component {
                     tableHeader: this.state.tableHeader3,
                     xScroll: '300%',
                     lineBarChartVisible: true,
-                    modalTitle: '乘客数据'
-                })
+                    modalTitle: '乘客数据',
+                    chartInform: this.state.chartInform3,
+                },console.log(this.state.chartInform))
                 break;
             case 4:
                 this.setState({
@@ -806,20 +1042,6 @@ export  default class overviewData extends React.Component {
             value: 55,
             }
         ]
-          // let tableDataOrder = [{
-        //     key: 'aa',
-        //     create_order_number: 1111,
-        //     complete_order_number: 222,
-        //     complete_order_radio: 33
-        //     },{
-        //     create_order_number: 1111,
-        //     complete_order_number: 222,
-        //     complete_order_radio: 33
-        //     },{
-        //     create_order_number: 1111,
-        //     complete_order_number: 222,
-        //     complete_order_radio: 33
-        // }]
           return (
             <div className="overview-wrapper">
                 <div className="operating-wrapper">
@@ -896,13 +1118,14 @@ export  default class overviewData extends React.Component {
                                 </Tabs>
                             </div>
                         </div>
+                        {/* 堆积图，漏斗图 */}
                         <div className="chartExcelWrap">
-                            <div className="chartExcel chartExcelL">
+                            <div className="chartExcel chartExcelL doubleTable">
                                 <DateBox searchParams={params => this.thisSearchParams(params)}/>
                                 <Icon type="arrows-alt" theme="outlined"  onClick={this.showBigChart.bind(this, 4)}  />
                                 <Tabs defaultActiveKey="1" onChange={this.tabClickHandle.bind(this, 4)}>
                                     <TabPane tab="图" key="1">
-                                    <CumulateBarChart chartData={this.state.cumulateBarData}></CumulateBarChart>
+                                        <CumulateBarChart chartData={this.state.cumulateBarData}></CumulateBarChart>
                                     </TabPane>
                                     <TabPane tab="表" key="2">
                                         <Table dataSource={tableDataL} bordered loading={load} columns={tableHeaderL} pagination={false} style={{float:'left', width: '49%'}}></Table>
@@ -915,7 +1138,7 @@ export  default class overviewData extends React.Component {
                                 <Icon type="arrows-alt" theme="outlined"  onClick={this.showBigChart.bind(this, 5)}   />
                                 <Tabs defaultActiveKey="1" onChange={this.tabClickHandle.bind(this, 5)} >
                                     <TabPane tab="图" key="1">
-                                    <FunnelChart chartData={this.state.funnelchartData}></FunnelChart>
+                                        <FunnelChart chartData={this.state.funnelchartData}></FunnelChart>
                                     </TabPane>
                                     <TabPane tab="表" key="2">
                                         <Table dataSource={tableDataLL} bordered loading={load} columns={tableHeaderLL} pagination={false} style={{float:'left', width: '98%'}}></Table>
@@ -949,6 +1172,7 @@ export  default class overviewData extends React.Component {
                         </div>
                     </div>
                 </Modal>
+                {/* 堆积图--弹出 */}
                 <Modal
                     className="overview-wrapper"
                     visible={this.state.cumulateBarChartVisible}
@@ -972,6 +1196,7 @@ export  default class overviewData extends React.Component {
                         </div>
                     </div>
                 </Modal>
+                {/* 漏斗图--弹出 */}
                 <Modal
                     className="overview-wrapper"
                     visible={this.state.funnelChartVisible}

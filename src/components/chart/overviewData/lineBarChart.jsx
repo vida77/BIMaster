@@ -6,6 +6,7 @@ import '../../../page/overviewData/overviewData.less'
 export default class LineBarChart extends Component{
     constructor(props){
         super(props);
+        // console.log(this.props)
         this.state = {
             title: '订单数据',
             xData: [],
@@ -15,6 +16,18 @@ export default class LineBarChart extends Component{
             arr: [],
             data: {},
         }
+    }
+    componentWillReceiveProps(){
+        let that = this;
+        setTimeout(function(){
+            that.getXDataLegend();
+            that.getSelectLegend()
+            that.getChartData();
+            that.setState({
+                title: that.props.title
+            })
+        },0)
+        
     }
     componentWillMount(){
         this.getXDataLegend();
@@ -43,13 +56,16 @@ export default class LineBarChart extends Component{
     getChartData(){
         const {chartData, chartInform} = this.props;
         let data = chartData;
+        console.log(this.props)
         let arrData = chartInform;
         let objJson = {};
         for(let key of arrData){
-            let keyName = key.filedName;
+            let keyName = key.filedName;//total_of_orders，
             let a = [];
             Object.keys(data).map(item => {
+                // console.log(item)//09-10
                 a.push(data[item][keyName])
+                // console.log(a)//[180, 281, 180, 281, 180, 281, 180, 281]
             })
             objJson[keyName] = a;
         }
@@ -109,12 +125,12 @@ export default class LineBarChart extends Component{
             backgroundColor:'#fff',
             color: ['#1890ff', '#13c2c2', '#52c41a', '#faad14', '#eb2f96', '#a0d911' ,'#fadb14'],
             legend: {
-                bottom: '10',
+                bottom: '5',
                 selected: selectedLegend,
                 data:legendData
             },
             grid: {
-                bottom: 70,
+                bottom: 80,
                 left: 40,
                 right: 40
             },

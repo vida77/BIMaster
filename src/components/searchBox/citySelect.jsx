@@ -45,21 +45,36 @@ class CitySelect extends React.Component{
     getAllCityData(){
         let obj = localStorage.getItem('cityData');
         let objJson = JSON.parse(obj);
+       
         if(objJson){
-            objJson = Object.assign({"all": "全部"}, objJson);
-            this.setState({
-                cityData: objJson
-            },() => this.getCityData())
-
+            if(Object.keys(objJson).length>1){
+                objJson = Object.assign({"all": "全部"}, objJson);
+                this.setState({
+                    cityData: objJson
+                },() => this.getCityData())
+            }else{
+                objJson = objJson;
+                this.setState({
+                    cityData: objJson
+                },() => this.getCityData())
+            }
         }else {
             let cityData = getFun('/web_api/dim_info/city');
             cityData.then( res => {
                 console.log(res.data)
                 localStorage.setItem('cityData', JSON.stringify(res.data));
-                let cityobj = Object.assign({"all": "全部"}, res.data);
-                this.setState({
-                    cityData: cityobj
-                })
+                if(Object.keys(res.data).length>1){
+                    let cityobj = Object.assign({"all": "全部"}, res.data);
+                    this.setState({
+                        cityData: cityobj
+                    })
+                }else{
+                    let cityobj = res.data;
+                    this.setState({
+                        cityData: cityobj
+                    })
+                }
+                
 
             })
         }
@@ -126,7 +141,6 @@ class CitySelect extends React.Component{
             }
             this.props.searchParams(param)
         }
-
     }
     getCityArr(value){
         let length = value.length - 1;

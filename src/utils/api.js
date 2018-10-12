@@ -189,6 +189,17 @@ export function get(url, params) {
                         },
                     })
                     break;
+                case 30001:
+                    resolve(res);
+                    console.log(res.code)
+                    // message.error('用户没有相关操作权限');
+                    hashHistory.push({
+                        pathname: '/app/pageError',
+                        query: {
+                            code: res.code
+                        },
+                    })
+                    break;
                 default:
                     message.error(res.code);
                     reject(res.code);
@@ -239,6 +250,16 @@ export function post(url, params) {
                     break;
                 case 10002:
                     resolve(res.data);
+                    // message.error('用户没有相关操作权限');
+                    hashHistory.push({
+                        pathname: '/app/pageError',
+                        query: {
+                            code: res.code
+                        },
+                    })
+                    break;
+                case 30001:
+                    resolve(res);
                     // message.error('用户没有相关操作权限');
                     hashHistory.push({
                         pathname: '/app/pageError',

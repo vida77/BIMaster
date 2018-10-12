@@ -169,16 +169,17 @@ export default class Survey extends Component {
         if (type === 0) { //服务类型
             that.setState({
                 order_type: value
-            }, () => that.getSummary())
+            }, () => this.getRealtime())
         } else if (type === 1) { //车型
             that.setState({
                 car_type: value
-            }, () => that.getSummary())
-        } else { //日期
-            that.setState({
-                date_type: value
-            }, () => that.getSummary())
+            }, () => this.getRealtime())
         }
+        // } else { //日期
+        //     that.setState({
+        //         date_type: value
+        //     }, () => that.getSummary())
+        // }
     }
     disabledDate(current) {
         return current && current.valueOf() > Date.now();
@@ -188,7 +189,7 @@ export default class Survey extends Component {
         this.setState({
             city: params.city,
             cityFlag: true
-        })
+        },() => this.getRealtime())
     }
     // 获取倍率开关布尔参数
     switchSearchParams(params){
@@ -200,18 +201,19 @@ export default class Survey extends Component {
         },console.log(this.state.switchBoolean))
     }
     getCityParams(){
+        let auth = JSON.parse(localStorage.getItem("auth"));
+        let arr = Object.keys(auth);
         let path = document.location.toString();
         let pathUrl = path.split('#');
         let url = pathUrl[1].split('/');
         let str = url[url.length - 1];
         let city = "";
-        let auth = JSON.parse(localStorage.getItem("auth"));
         if(auth){
             let cityObj = auth;
             Object.keys(cityObj).map(item => {
                 if(item.indexOf(str) > 0 ){
                     let cityArr = cityObj[item].city;
-                    if(cityArr[0] == 'all'){
+                    if(cityArr[0] == 'all' || arr.indexOf("-1") > -1){
                         city = '';
                     }else {
                         city = cityArr.join(",")
@@ -222,6 +224,7 @@ export default class Survey extends Component {
         }
         return city;
     }
+
     render() {
         const {currentTabKey, loading} = this.state;
 

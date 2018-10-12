@@ -54,24 +54,45 @@ class CityActivity extends React.Component{
         // }
     }
     
+    getJsonLength(jsonData) {
+        let length;
+        for(let ever in jsonData) {
+            length++;
+        }
+        return length;
+    }
     getAllCityData(){
         let obj = localStorage.getItem('cityData');
         let objJson = JSON.parse(obj);
+        console.log(objJson)
         if(objJson){
-            objJson = Object.assign({"all": "全部"}, objJson);
-            this.setState({
-                cityData: objJson
-            },() => this.getCityData())
+            if(Object.keys(objJson).length>1){
+                objJson = Object.assign({"all": "全部"}, objJson);
+                this.setState({
+                    cityData: objJson
+                },() => this.getCityData())
+            }else{
+                objJson = objJson;
+                this.setState({
+                    cityData: objJson
+                },() => this.getCityData())
+            }
 
         }else {
             let cityData = getFun('/web_api/dim_info/city');
             cityData.then( res => {
-                console.log(res.data)
                 localStorage.setItem('cityData', JSON.stringify(res.data));
-                let cityobj = Object.assign({"all": "全部"}, res.data);
-                this.setState({
-                    cityData: cityobj
-                })
+                if(Object.keys(res.data).length>1){
+                    let cityobj = Object.assign({"all": "全部"}, res.data);
+                    this.setState({
+                        cityData: cityobj
+                    })
+                }else{
+                    let cityobj = res.data;
+                    this.setState({
+                        cityData: cityobj
+                    })
+                }
 
             })
         }

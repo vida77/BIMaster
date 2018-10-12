@@ -109,13 +109,13 @@ export  default class couponStatistic extends React.Component {
     componentWillMount(){
         // this.getTableData();
         this.initDateRange(this.state.dayNum);//初始化查询日期
-        let city = this.getCityParams();
+        // let city = this.getCityParams();
         this.setState({
-            city: city,
+            city: this.props.location.search.split('=')[2],
             activity_id: this.props.location.search.split('=')[1]
         })
-        // console.log(city)
-        // console.log(this.props.location.search.split('=')[1])
+        // console.log(this.state.city)
+        console.log(this.props.location.search.split('=')[2])
     }
     componentDidMount(){
         this.getTableData();
@@ -210,7 +210,9 @@ export  default class couponStatistic extends React.Component {
                 tableData: objectToArr2(res.data.data,arrStr),
                 total: res.data.total,
                 id_value: '',
-                name_value: ''
+                name_value: '',
+                // city: searchParams.city
+
             }, () => {this.initExportData()})
         }).catch(err => {
             console.log(err)
@@ -229,12 +231,13 @@ export  default class couponStatistic extends React.Component {
         result.then(res => {
             res.data.data.map(item=>{
                 item.date_ts = dateFormat(item.date_ts*1000,"yyyy-MM-dd")
-                console.log(item.date_ts)
+                // console.log(item.date_ts)
             })
             this.setState({
                 load1: false,
                 tableData1: objectToArr2(res.data.data, arrStr),
-                total1: res.data.total
+                total1: res.data.total,
+                city: searchParams.city
         
             }, () => {this.initExportData1()})
         }).catch(err => {
@@ -246,15 +249,20 @@ export  default class couponStatistic extends React.Component {
         const params = {
             coupon_id: this.state.id_value?this.state.id_value:'',
             coupon_name: this.state.name_value?this.state.name_value:'',
-            city: this.state.flag?this.state.city:this.getCityParams(),
             page: this.state.current,
-            activity_id: this.state.activity_id?this.state.activity_id:''
+            activity_id: this.state.activity_id?this.state.activity_id:'',
+            city: this.props.location.search.split('=')[2]?this.props.location.search.split('=')[2]:this.getCityParams()
+            // city: this.state.city?this.state.city:this.getCityParams(),
         }
         console.log('请求参数',params)
+        // this.setState({
+        //     city: params.city,
+        // })
         return params;
     }
     // 获取接口参数--详情
     getParams1() {
+        console.log(this.state.city)
         // let start, end;
         // start = this.pageStartDate();
         // end = this.pageEndDate().format("YYYY-MM-DD");
@@ -265,24 +273,25 @@ export  default class couponStatistic extends React.Component {
             end_at: this.state.end_at,
             groupby: 'date',
             page: this.state.current1,
+            city: this.state.city
         }
         console.log('详情页请求参数',params)
         return params;
     }
-    // 城市权限
     getCityParams(){
+        let auth = JSON.parse(localStorage.getItem("auth"));
+        let arr = Object.keys(auth);
         let path = document.location.toString();
         let pathUrl = path.split('#');
         let url = pathUrl[1].split('/');
         let str = url[url.length - 1];
         let city = "";
-        let auth = JSON.parse(localStorage.getItem("auth"));
         if(auth){
             let cityObj = auth;
             Object.keys(cityObj).map(item => {
                 if(item.indexOf(str) > 0 ){
                     let cityArr = cityObj[item].city;
-                    if(cityArr[0] == 'all'){
+                    if(cityArr[0] == 'all' || arr.indexOf("-1") > -1){
                         city = '';
                     }else {
                         city = cityArr.join(",")
@@ -339,15 +348,15 @@ export  default class couponStatistic extends React.Component {
     }
     // 优惠券统计->优惠券统计详情页
     gotoDetails(text,record){
-        console.log(record)
+        // console.log(record)
         this.setState({
             detailsTitle:  ' / ' + text,
             showFlag: !this.state.showFlag
         })
         this.initDateRange(this.state.dayNum);//初始化查询日期
-        let city = this.getCityParams();
+        // let city = this.getCityParams();
         this.setState({
-            city: city,
+            // city: city,
             load1: true,
             coupon_id_detail: record.coupon_id,
             coupon_name_detail: '',
@@ -360,7 +369,8 @@ export  default class couponStatistic extends React.Component {
     goBackDetails(){
         this.setState({
             showFlag: !this.state.showFlag,
-            load: false
+            load: false,
+            // city: ''
         },() => {
             this.getTableData();
         })
