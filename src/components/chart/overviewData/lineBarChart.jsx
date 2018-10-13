@@ -6,7 +6,7 @@ import '../../../page/overviewData/overviewData.less'
 export default class LineBarChart extends Component{
     constructor(props){
         super(props);
-        // console.log(this.props)
+        
         this.state = {
             title: '订单数据',
             xData: [],
@@ -17,25 +17,28 @@ export default class LineBarChart extends Component{
             data: {},
         }
     }
+    
     componentWillReceiveProps(){
         let that = this;
         setTimeout(function(){
-            that.getXDataLegend();
-            that.getSelectLegend()
-            that.getChartData();
             that.setState({
                 title: that.props.title
             })
+            that.getXDataLegend();
+            that.getSelectLegend()
+            that.getChartData();
+            
         },0)
         
     }
     componentWillMount(){
-        this.getXDataLegend();
-        this.getSelectLegend()
-        this.getChartData();
         this.setState({
             title: this.props.title
         })
+        this.getXDataLegend();
+        this.getSelectLegend()
+        this.getChartData();
+        
     }
     componentDidMount(){
         this.showChart();
@@ -56,7 +59,6 @@ export default class LineBarChart extends Component{
     getChartData(){
         const {chartData, chartInform} = this.props;
         let data = chartData;
-        console.log(this.props)
         let arrData = chartInform;
         let objJson = {};
         for(let key of arrData){
@@ -71,7 +73,7 @@ export default class LineBarChart extends Component{
         }
         this.setState({
             chartData: objJson
-        })
+        },() => this.showChart())
     }
     // 设置第一个legend选中
     getSelectLegend(){

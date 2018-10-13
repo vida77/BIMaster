@@ -37,7 +37,7 @@ class PiesAnalysis extends React.Component{
                 3: [3],
                 4: [5],
                 5: [78],
-                6: [2,3,5,37,78]
+                6: [999]
             },
             carTypes: { //车型
                 0: '全部',

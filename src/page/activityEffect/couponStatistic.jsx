@@ -103,22 +103,47 @@ export  default class couponStatistic extends React.Component {
             coupon_id_detail:'',
             coupon_name_detail: '',
             typeOptionData: ['优惠券ID','优惠券名称'],
-            activity_id: ''
+            activity_id: '',
+            defaultCity:[]
         }
     }   
     componentWillMount(){
-        // this.getTableData();
         this.initDateRange(this.state.dayNum);//初始化查询日期
-        // let city = this.getCityParams();
-        this.setState({
-            city: this.props.location.search.split('=')[2],
-            activity_id: this.props.location.search.split('=')[1]
-        })
-        // console.log(this.state.city)
-        console.log(this.props.location.search.split('=')[2])
+        
+        let cityParam = this.props.location.search.substr(1).split('&')[1].split('=')[1]
+        if(this.props.location.search){
+            if(cityParam){ 
+                let cityStr = this.props.location.search.split('=')[2].split('-')
+                this.setState({
+                    city: cityStr.join(","),
+                    defaultCity: cityStr, 
+                    activity_id: this.props.location.search.split('=')[1].split('&')[0]
+                })
+                console.log(cityStr.join(","))
+            }else{
+                this.setState({
+                    city: '',
+                    defaultCity: ['all'], 
+                    activity_id: this.props.location.search.split('=')[1].split('&')[0]
+                })
+            }
+        }else{
+            this.setState({
+                city: '',
+                defaultCity: ['all'], 
+                activity_id: ''
+            })
+        }
+        
     }
     componentDidMount(){
         this.getTableData();
+    }
+    GetQueryString(name)
+    {
+        let reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        let r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
     }
     //初始化查询起止日期
     initDateRange(rangeDays) {
@@ -202,6 +227,7 @@ export  default class couponStatistic extends React.Component {
     getTableData(){
         let arrStr = ['start_time','coupon_name']
         let searchParams = this.getParams();
+        console.log("q",searchParams)
         let result =getFun('/web_api/market/coupon',  searchParams);
         result.then(res => {
             // console.log(res.data)
@@ -251,8 +277,7 @@ export  default class couponStatistic extends React.Component {
             coupon_name: this.state.name_value?this.state.name_value:'',
             page: this.state.current,
             activity_id: this.state.activity_id?this.state.activity_id:'',
-            city: this.props.location.search.split('=')[2]?this.props.location.search.split('=')[2]:this.getCityParams()
-            // city: this.state.city?this.state.city:this.getCityParams(),
+            city: this.state.city?this.state.city:this.getCityParams()
         }
         console.log('请求参数',params)
         // this.setState({
@@ -397,7 +422,7 @@ export  default class couponStatistic extends React.Component {
                         <div className="search-content">
                             <div className="search-wrapper">
                                 <div>
-                                    <CityActivity searchParams={params => this.cityActivityParams(params)} title={selectBoxTitle} typeOptionData={typeOptionData}></CityActivity>
+                                    <CityActivity defaultCity={this.state.defaultCity} searchParams={params => this.cityActivityParams(params)} title={selectBoxTitle} typeOptionData={typeOptionData}></CityActivity>
                                 </div>
                             </div>
                             <div className="search-btn-wrapper">

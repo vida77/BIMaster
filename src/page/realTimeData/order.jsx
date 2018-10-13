@@ -207,7 +207,7 @@ export default class RealTimeOrder extends Component {
         this.setState({
             city: params.city,
             cityFlag: true
-        })
+        },() => this.getRealtime())
     }
     getCityParams(){
         let auth = JSON.parse(localStorage.getItem("auth"));

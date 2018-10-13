@@ -37,6 +37,7 @@ function objectToQueryString(queryObject) {
       queryArray.push(`${queryKey}=${queryObject[queryKey]}`);
     }
   }
+//   console.log(queryArray)
   return queryArray.join('&');
 }
 
@@ -49,7 +50,9 @@ function request(url, method, params) {
   };
 
   if (method === REQUEST_METHOD_GET) {
+      console.log(params)
     url = url + '?' + objectToQueryString(params)
+    // console.log(url)
   }
 
 

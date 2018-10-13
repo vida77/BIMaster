@@ -27,7 +27,8 @@ class CityActivity extends React.Component{
             city: [],
             cityOptionData: {},
             cityData: {},
-            auth: {}
+            auth: {},
+            defaultCity:['all'],
         };
     }
     componentWillMount() {
@@ -46,12 +47,19 @@ class CityActivity extends React.Component{
 
     }
     componentWillReceiveProps(nextProps) {
+        if('defaultCity' in nextProps){
+            this.setState({
+                city: nextProps.defaultCity
+            })
+        }
+        
         // if(nextProps.initDataFun){
         //     console.log(nextProps.initDataFun)
         //     this.setState({
         //         auth: nextProps.initDataFun.auth
         //     },() => this.getCityData())
         // }
+
     }
     
     getJsonLength(jsonData) {

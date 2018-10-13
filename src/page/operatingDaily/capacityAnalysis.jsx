@@ -33,7 +33,7 @@ class CapacityAnalysis extends React.Component{
                 3: [3],
                 4: [5],
                 5: [78],
-                6: [2,3,5,37,78]
+                6: [999]
             },
             carTypes: { //车型
                 0: '全部',
@@ -239,6 +239,7 @@ class CapacityAnalysis extends React.Component{
     // 获取车型参数
     carTypeChange(e) {
         let index = e.target.value;
+        console.log(index)
         this.setState({
             car_type_id: this.state.carCombine[index].join(',')
         })

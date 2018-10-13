@@ -135,7 +135,7 @@ export  default class effectStatistic extends React.Component {
             activity_id_detail:'',
             activity_name_detail: '',
             typeOptionData: ['活动ID','活动名称'],
-            
+            defaultCity: []
         }
         this.gotoDetails = this.gotoDetails.bind(this)
     }
@@ -393,16 +393,12 @@ export  default class effectStatistic extends React.Component {
     }
     // 活动统计->活动统计详情页
     gotoDetails(text,record){
-        console.log(record)
         this.setState({
             detailsTitle:  ' / ' + text,
             showFlag: !this.state.showFlag
         })
         this.initDateRange(this.state.dayNum);//初始化查询日期
-        // let city = this.getCityParams();
-        // console.log(city)
         this.setState({
-            // city: this.state.city,
             load1: true,
             activity_id_detail: record.activity_id,
             activity_name_detail: '',
@@ -416,16 +412,18 @@ export  default class effectStatistic extends React.Component {
         this.setState({
             showFlag: !this.state.showFlag,
             load: false,
-            city: ''
-        })
+        },()=>this.getTableData())
     }
     gotoCoupon(record){
+        let city = this.state.city;
+        city = city.split(',').join("-");
         hashHistory.push({
             pathname: '/app/market/coupon',
             query: {
                 activity_id: record.activity_id,
-                city: this.state.city
+                city: city
             },
+            
         })
     }
     // 时间格式转化
@@ -461,7 +459,7 @@ export  default class effectStatistic extends React.Component {
                                 <div className="search-wrapper">
                                     <div>
                                         {/* <SelectBox searchParams={params => this.thisSearchParams(params)} title={selectBoxTitle} typeOptionData={typeOptionData}></SelectBox> */}
-                                        <CityActivity searchParams={params => this.cityActivityParams(params)} title={selectBoxTitle} typeOptionData={typeOptionData}></CityActivity>
+                                        <CityActivity  searchParams={params => this.cityActivityParams(params)} title={selectBoxTitle} typeOptionData={typeOptionData}></CityActivity>
                                     </div>
                                 </div>
                                 <div className="search-btn-wrapper">
